@@ -49,7 +49,8 @@ public class SetupFile {
 
             if (name.isEmpty() || name.isBlank())
                 throw new InvalidPropertiesFormatException("There must be name in person");
-            if (town.isEmpty()) town.equals("Unknown");
+            if (town.isEmpty()) town = "Unknown";
+
 
             listClean.add(rowArr);
         }

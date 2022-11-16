@@ -6,13 +6,11 @@ import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.block1.SetupFile.cleanRows;
 import static org.block1.SetupFile.readFile;
 
 public class Main {
-    private static List<Person> nameStartsWithA;
 
     public static void main(String[] args) throws InvalidPropertiesFormatException {
          Path myPath = Paths.get(
@@ -35,19 +33,17 @@ public class Main {
         System.out.println("AGE NOT 0: ");
         listPerson.stream()
                 .filter(person -> person.getAge() != 0)
-                .forEach(person -> System.out.println(person));
+                .forEach(System.out::println);
 
         System.out.println("AGE LESS THAN 25: ");
         List<Person> ageFiltered = listPerson.stream()
-                .filter(person -> person.getAge() < 25)
-                .collect(Collectors.toList());
-        ageFiltered.forEach(person -> System.out.println(person));
+                .filter(person -> person.getAge() < 25).toList();
+        ageFiltered.forEach(System.out::println);
 
         System.out.println("NAME STARTS WITH 'A': ");
-        nameStartsWithA = listPerson.stream()
-                .filter(person -> !person.getName().startsWith("A"))
-                        .collect(Collectors.toList());
-        nameStartsWithA.forEach(person -> System.out.println(person));
+        List<Person> nameStartsWithA = listPerson.stream()
+                .filter(person -> !person.getName().startsWith("A")).toList();
+        nameStartsWithA.forEach(System.out::println);
 
         System.out.println("TOWN IS MADRID: ");
         Optional<Person> Madrid = listPerson.stream().filter(person -> person.getTown().equals("Madrid")).findFirst();
