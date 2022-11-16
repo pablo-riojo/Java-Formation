@@ -1,50 +1,61 @@
 package org.block1;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.block1.SetupFile.cleanRows;
+import static org.block1.SetupFile.readFile;
 
 public class Main {
-    public static void main(String[] args) {
-        // ArrayList<Person> listPerson = new ArrayList<>();
-        Path myPath = Paths.get(
-                "C:\\Users\\pablo.riojo\\Desktop\\Java-Formation\\JF\\block1-process-file-and-streams\\Persons.csv");
-        List<String[]> dataRows = readFile(myPath);
-    }
+    private static List<Person> nameStartsWithA;
 
-    public static List<String[]> readFile(Path path) {
-        String line;
-        String[] values;
-        List<String[]> rows = new ArrayList<>();
+    public static void main(String[] args) throws InvalidPropertiesFormatException {
+         Path myPath = Paths.get(
+                "C:\\Users\\pablo.riojo\\Desktop\\Java-Formation\\JF\\block1-process-file-and-streams\\Persons.csv"
+         );
+         ArrayList<Person> listPerson = new ArrayList<>();
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(path.toFile(), StandardCharsets.UTF_8));
+        List<String[]> cleanRows = cleanRows(readFile(myPath));
 
-            while ((line = reader.readLine()) != null) {
-                values = line.split(":");
-                rows.add(values);
-            }
+        for (String[] row : cleanRows) {
+            Person person = new Person();
 
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            person.setName(row[0]);
+            person.setTown(row[1]);
+            person.setAge((row.length < 3) ? 0 : Integer.parseInt(row[2]));
+
+            listPerson.add(person);
         }
 
-        return rows;
-    }
+        System.out.println("AGE NOT 0: ");
+        listPerson.stream()
+                .filter(person -> person.getAge() != 0)
+                .forEach(person -> System.out.println(person));
 
-//    public static void cleanRows(String[] rows) {
-//        for (int i = 0; i < rows.length; i++) {
-//            System.out.println(rows.toString());
-//        }
-//    }
+        System.out.println("AGE LESS THAN 25: ");
+        List<Person> ageFiltered = listPerson.stream()
+                .filter(person -> person.getAge() < 25)
+                .collect(Collectors.toList());
+        ageFiltered.forEach(person -> System.out.println(person));
+
+        System.out.println("NAME STARTS WITH 'A': ");
+        nameStartsWithA = listPerson.stream()
+                .filter(person -> !person.getName().startsWith("A"))
+                        .collect(Collectors.toList());
+        nameStartsWithA.forEach(person -> System.out.println(person));
+
+        System.out.println("TOWN IS MADRID: ");
+        Optional<Person> Madrid = listPerson.stream().filter(person -> person.getTown().equals("Madrid")).findFirst();
+        System.out.println(Madrid);
+
+        System.out.println("TOWN IS BARCELONA: ");
+        Optional<Person> Barcelona = listPerson.stream().filter(person -> person.getTown().equals("Barcelona")).findFirst();
+        System.out.println(Barcelona);
+    }
 }
 
