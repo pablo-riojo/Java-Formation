@@ -50,6 +50,7 @@ public class SetupFile {
             if (name.isEmpty() || name.isBlank())
                 throw new InvalidPropertiesFormatException("There must be name in person");
             if (town.isEmpty()) town = "Unknown";
+            // TODO: RESIZE ARRAY -> 105 JAVA COURSE
 
 
             listClean.add(rowArr);
