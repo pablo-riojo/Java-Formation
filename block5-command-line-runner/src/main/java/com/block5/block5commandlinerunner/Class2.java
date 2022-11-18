@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Class2 {
     @Bean
-    CommandLineRunner second() {
+     CommandLineRunner second() {
         return x -> System.out.println("Second class");
     }
 }
