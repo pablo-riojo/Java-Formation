@@ -17,7 +17,7 @@
             <onMismatch>ACCEPT</onMismatch>
         </filter>
         <encoder>
-            <pattern>%date %level  %msg%n</pattern>
+            <pattern>[%thread] %highlight(%level) %cyan(%logger{15}) - %msg %n</pattern>
         </encoder>
     </appender>
 
@@ -27,11 +27,4 @@
         <appender-ref  ref="SOUTD"/>
         <appender-ref ref="FILE"/>
     </logger>
-
-
-
-
-
-
-
 </configuration>
