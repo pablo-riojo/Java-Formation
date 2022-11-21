@@ -21,7 +21,7 @@ public static class CLR implements CommandLineRunner {
 		@Value("${myNumber}")
 		private int number;
 
-		@Value("${new.property:new.property no tiene valor}")
+		@Value("${new.property:newProperty not found}")
 		private String newProperty;
 
 	public String getName() {
