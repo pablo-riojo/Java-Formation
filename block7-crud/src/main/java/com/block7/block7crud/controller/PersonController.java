@@ -23,6 +23,11 @@ public class PersonController {
         return personSvc.findById(id);
     }
 
+    @GetMapping("/{name}")
+    public Optional<Person> getPersonByName(@PathVariable String name) {
+        return personSvc.findByName(name);
+    }
+
     @PostMapping
     public Person createPerson(@RequestBody Person newPerson) {
         return personSvc.create(newPerson);

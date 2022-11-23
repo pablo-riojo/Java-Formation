@@ -23,6 +23,11 @@ public class PersonSvcImpl  implements PersonSvc {
     }
 
     @Override
+    public Optional<Person> findByName(String name) {
+        return personList.stream().filter(person -> Objects.equals(person.getName(), name)).findFirst();
+    }
+
+    @Override
     public Person create(Person newPerson) {
         personList.add(newPerson);
 

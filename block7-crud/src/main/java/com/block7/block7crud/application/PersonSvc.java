@@ -7,6 +7,8 @@ import java.util.Optional;
 public interface PersonSvc {
         Iterable<Person> findAll();
         Optional<Person> findById(Long id);
+        Optional<Person> findByName(String name);
+
         Person create(Person newPerson);
 
         Optional<Person> update(Long id, Person newPerson);
