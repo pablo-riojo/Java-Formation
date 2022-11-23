@@ -13,7 +13,7 @@ public class PersonController {
     @Autowired
     PersonSvc personSvc;
 
-    @GetMapping
+    @GetMapping("/all")
     public Iterable<Person> getPersonList() {
         return personSvc.findAll();
     }
@@ -23,8 +23,8 @@ public class PersonController {
         return personSvc.findById(id);
     }
 
-    @GetMapping("/{name}")
-    public Optional<Person> getPersonByName(@PathVariable String name) {
+    @GetMapping
+    public Optional<Person> getPersonByName(@RequestParam(required = false) String name) {
         return personSvc.findByName(name);
     }
 
