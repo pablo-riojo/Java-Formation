@@ -21,6 +21,7 @@ public class PersonOutputDTO implements Serializable {
     private String city;
     private Boolean active;
     private Date createdAt;
+    private Date updatedAt;
     private URL imageUrl;
     private Date terminationDate;
 }

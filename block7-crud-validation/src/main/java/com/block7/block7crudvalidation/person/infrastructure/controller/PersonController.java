@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,9 @@ public class PersonController {
         Optional<Person> person = personSvc.findById(id);
         if (person.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
 
-        return ResponseEntity.ok(mapper.Instance.personToPersonOutputDTO(person.get()));
+        PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(person.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/user/{user}")
@@ -43,26 +46,37 @@ public class PersonController {
         Optional<Person> person = personSvc.findByUser(user);
         if (person.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with username " + user + " not found");
 
-        return ResponseEntity.ok(mapper.Instance.personToPersonOutputDTO(person.get()));
+        PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(person.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<Person> createPerson(@RequestBody PersonInputDTO person) {
+    public ResponseEntity<PersonOutputDTO> createPerson(@RequestBody PersonInputDTO person) {
         Person personMapped = mapper.Instance.personInputDTOToPerson(person);
+        personSvc.save(personMapped);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(personSvc.save(personMapped));
+        PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(personMapped);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable Long id) {
-        Optional<Person> person = personSvc.findById(id);
-        if (person.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
+    @PutMapping("/{id}")
+    public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable Long id, @RequestBody PersonInputDTO newPerson) {
+        Optional<Person> personDB = personSvc.findById(id);
+        if (personDB.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
 
-        return ResponseEntity.ok(mapper.Instance.personToPersonOutputDTO(person.get()));
+        Person newPersonMapped = mapper.Instance.personInputDTOToPerson(newPerson);
+        personSvc.update(newPersonMapped, id);
+
+        PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(newPersonMapped);
+        response.setUpdatedAt(new Date());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePerson(@PathVariable Long id) {
+    public ResponseEntity<?> deletePersonById(@PathVariable Long id) {
         Optional<Person> person = personSvc.findById(id);
         if (person.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-sources>
+      <data-source id="77bde64f-7776-4018-be43-3bbb710bf2c2" name="springdatademo" url="jdbc:h2:file:~/springdatademo" driverClass="org.h2.Driver" />
+    </data-sources>
+  </component>
+</project>

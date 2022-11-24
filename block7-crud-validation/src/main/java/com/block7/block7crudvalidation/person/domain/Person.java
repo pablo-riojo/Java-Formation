@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 
 @Getter
@@ -43,11 +44,22 @@ public class Person {
     private Boolean active;
 
     @Column(name = "created_at", nullable = false)
-    private final Date createdAt = new Date();
+    private Date createdAt = new Date();
+
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     @Column(name = "image_url")
     private URL imageUrl;
 
-    @Column(name = "termination_date")
-    private Date terminationDate;
+    @Column(name = "termination_date", nullable = false)
+    private final Date terminationDate = setTerminationDate();
+
+    public Date setTerminationDate() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(this.createdAt);
+        c.add(Calendar.YEAR, 1);
+
+        return c.getTime();
+    }
 }

@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.net.URL;
-import java.util.Date;
 
 /**
  * A DTO for the {@link Person} entity
@@ -22,5 +21,4 @@ public class PersonInputDTO implements Serializable {
     private String city;
     private Boolean active;
     private URL imageUrl;
-    private Date terminationDate;
 }
