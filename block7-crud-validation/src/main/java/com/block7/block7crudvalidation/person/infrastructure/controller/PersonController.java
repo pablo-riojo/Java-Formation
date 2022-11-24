@@ -5,11 +5,11 @@ import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonInputDTO;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonOutputDTO;
+import com.block7.block7crudvalidation.person.infrastructure.exception.entityNotFound.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
@@ -34,7 +34,7 @@ public class PersonController {
     @GetMapping("/{id}")
     public ResponseEntity<PersonOutputDTO> getPersonById(@PathVariable Long id) {
         Optional<Person> person = personSvc.findById(id);
-        if (person.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
+        if (person.isEmpty()) throw new EntityNotFoundException("Person with ID " + id + " not found");
 
         PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(person.get());
 
@@ -44,7 +44,7 @@ public class PersonController {
     @GetMapping("/user/{user}")
     public ResponseEntity<PersonOutputDTO> getPersonByUser(@PathVariable String user) {
         Optional<Person> person = personSvc.findByUser(user);
-        if (person.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with username " + user + " not found");
+        if (person.isEmpty()) throw new EntityNotFoundException("Person with username " + user + " not found");
 
         PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(person.get());
 
@@ -64,7 +64,7 @@ public class PersonController {
     @PutMapping("/{id}")
     public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable Long id, @RequestBody PersonInputDTO newPerson) {
         Optional<Person> personDB = personSvc.findById(id);
-        if (personDB.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
+        if (personDB.isEmpty()) throw new EntityNotFoundException("Person with ID " + id + " not found");
 
         Person newPersonMapped = mapper.Instance.personInputDTOToPerson(newPerson);
         personSvc.update(newPersonMapped, id);
@@ -76,9 +76,9 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePersonById(@PathVariable Long id) {
+    public ResponseEntity<?> deletePersonById(@PathVariable Long id) throws EntityNotFoundException {
         Optional<Person> person = personSvc.findById(id);
-        if (person.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
+        if (person.isEmpty()) throw new EntityNotFoundException("Person with ID " + id + " not found");
 
         personSvc.delete(id);
 
