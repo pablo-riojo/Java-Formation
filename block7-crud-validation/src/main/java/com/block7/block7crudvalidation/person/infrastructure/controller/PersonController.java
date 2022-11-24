@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @SuppressWarnings("ALL")
 @RestController
@@ -33,20 +32,18 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonOutputDTO> getPersonById(@PathVariable Long id) {
-        Optional<Person> person = personSvc.findById(id);
-        if (person.isEmpty()) throw new EntityNotFoundException("Person with ID " + id + " not found");
+        Person person = personSvc.findById(id);
 
-        PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(person.get());
+        PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(person);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/user/{user}")
     public ResponseEntity<PersonOutputDTO> getPersonByUser(@PathVariable String user) {
-        Optional<Person> person = personSvc.findByUser(user);
-        if (person.isEmpty()) throw new EntityNotFoundException("Person with username " + user + " not found");
+        Person person = personSvc.findByUser(user);
 
-        PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(person.get());
+        PersonOutputDTO response = mapper.Instance.personToPersonOutputDTO(person);
 
         return ResponseEntity.ok(response);
     }
@@ -63,8 +60,7 @@ public class PersonController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable Long id, @RequestBody PersonInputDTO newPerson) {
-        Optional<Person> personDB = personSvc.findById(id);
-        if (personDB.isEmpty()) throw new EntityNotFoundException("Person with ID " + id + " not found");
+        Person personDB = personSvc.findById(id);
 
         Person newPersonMapped = mapper.Instance.personInputDTOToPerson(newPerson);
         personSvc.update(newPersonMapped, id);
@@ -77,8 +73,7 @@ public class PersonController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePersonById(@PathVariable Long id) throws EntityNotFoundException {
-        Optional<Person> person = personSvc.findById(id);
-        if (person.isEmpty()) throw new EntityNotFoundException("Person with ID " + id + " not found");
+        Person person = personSvc.findById(id);
 
         personSvc.delete(id);
 
