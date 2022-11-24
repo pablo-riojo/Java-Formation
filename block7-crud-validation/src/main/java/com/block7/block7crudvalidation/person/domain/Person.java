@@ -1,12 +1,14 @@
 package com.block7.block7crudvalidation.person.domain;
 
 import lombok.*;
+
 import javax.persistence.*;
 import java.net.URL;
 import java.util.Date;
 
-
 @Getter
+@Setter
+@RequiredArgsConstructor
 @ToString
 @Entity
 @Table(name = "Person")

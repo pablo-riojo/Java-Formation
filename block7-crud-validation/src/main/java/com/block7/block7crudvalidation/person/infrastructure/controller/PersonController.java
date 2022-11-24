@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("ALL")
 @RestController
 @RequestMapping("/person")
 public class PersonController {
@@ -58,5 +59,15 @@ public class PersonController {
         if (person.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
 
         return ResponseEntity.ok(mapper.Instance.personToPersonOutputDTO(person.get()));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePerson(@PathVariable Long id) {
+        Optional<Person> person = personSvc.findById(id);
+        if (person.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found");
+
+        personSvc.delete(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
