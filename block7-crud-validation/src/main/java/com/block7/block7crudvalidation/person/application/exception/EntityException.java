@@ -1,7 +1,7 @@
 package com.block7.block7crudvalidation.person.application.exception;
 
 import com.block7.block7crudvalidation.person.domain.Person;
-import com.block7.block7crudvalidation.person.infrastructure.exception.unprocessableEntity.UnprocessableEntityException;
+import com.block7.block7crudvalidation.exception.unprocessableEntity.UnprocessableEntityException;
 
 public class EntityException {
     public static void onSave(Person person) {
