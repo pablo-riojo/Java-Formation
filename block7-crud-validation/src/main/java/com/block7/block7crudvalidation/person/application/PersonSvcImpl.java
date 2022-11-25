@@ -37,7 +37,7 @@ public class PersonSvcImpl implements PersonSvc {
 
     @Override
     @Transactional
-    public Person update(Person newPerson, Long id) {
+    public void update(Person newPerson, Long id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person with ID " + id + " not found"));
 
         boolean equals = Objects.equals(person, newPerson);
@@ -50,8 +50,7 @@ public class PersonSvcImpl implements PersonSvc {
         newPerson.setUpdatedAt(new Date());
 
 
-
-        return personRepository.save(newPerson);
+        personRepository.save(newPerson);
     }
 
     @Override
@@ -62,10 +61,10 @@ public class PersonSvcImpl implements PersonSvc {
 
     @Override
     @Transactional
-    public Person save(Person person) {
-        EntityException checkExceptions = new EntityException();
-        checkExceptions.onSave(person);
+    public void save(Person person) {
+//        EntityException checkExceptions = new EntityException();
+        EntityException.onSave(person);
 
-        return personRepository.save(person);
+        personRepository.save(person);
     }
 }

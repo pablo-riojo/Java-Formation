@@ -8,7 +8,7 @@ public interface PersonSvc {
     List<Person> findAll();
     Person findById(Long id);
     Person findByUser(String user);
-    Person update(Person newPerson, Long id);
+    void update(Person newPerson, Long id);
     void delete(Long id);
-    Person save(Person person);
+    void save(Person person);
 }

@@ -4,7 +4,7 @@ import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.person.infrastructure.exception.unprocessableEntity.UnprocessableEntityException;
 
 public class EntityException {
-    public void onSave(Person person) {
+    public static void onSave(Person person) {
         if (person.getUser().length() > 10 || person.getUser().length() < 6) throw new UnprocessableEntityException("User must be between 6 and 10 characters");
 
         if (person.getUser() == null ||
