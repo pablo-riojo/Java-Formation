@@ -1,4 +1,4 @@
-package com.block7.block7crudvalidation.person.infrastructure.exception;
+package com.block7.block7crudvalidation.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

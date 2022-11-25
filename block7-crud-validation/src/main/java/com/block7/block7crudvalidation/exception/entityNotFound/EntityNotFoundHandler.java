@@ -1,6 +1,6 @@
-package com.block7.block7crudvalidation.person.infrastructure.exception.entityNotFound;
+package com.block7.block7crudvalidation.exception.entityNotFound;
 
-import com.block7.block7crudvalidation.person.infrastructure.exception.CustomError;
+import com.block7.block7crudvalidation.exception.CustomError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
