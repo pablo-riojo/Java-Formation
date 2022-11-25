@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class PersonSvcImpl implements PersonSvc {
@@ -25,7 +26,7 @@ public class PersonSvcImpl implements PersonSvc {
 
     @Override
     @Transactional(readOnly = true)
-    public Person findById(Long id) {
+    public Person findById(UUID id) {
         return personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person with ID " + id + " not found"));
     }
 
@@ -37,7 +38,7 @@ public class PersonSvcImpl implements PersonSvc {
 
     @Override
     @Transactional
-    public void update(Person newPerson, Long id) {
+    public void update(Person newPerson, UUID id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person with ID " + id + " not found"));
 
         boolean equals = Objects.equals(person, newPerson);
@@ -55,16 +56,14 @@ public class PersonSvcImpl implements PersonSvc {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(UUID id) {
         personRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public void save(Person person) {
-//        EntityException checkExceptions = new EntityException();
         EntityException.onSave(person);
-
         personRepository.save(person);
     }
 }

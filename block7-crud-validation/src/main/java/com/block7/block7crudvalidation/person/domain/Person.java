@@ -6,18 +6,19 @@ import javax.persistence.*;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @ToString
 @Entity
-@Table(name = "Person")
+@Table(name = "person")
 public class Person {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "id", nullable = false, columnDefinition = "uuid")
+    private UUID id;
 
     @Column(name = "user_name", nullable = false, length = 10)
     private String user;

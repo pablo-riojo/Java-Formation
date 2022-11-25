@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("ALL")
 @RestController
@@ -28,7 +29,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PersonOutputDTO> getPersonById(@PathVariable Long id) {
+    public ResponseEntity<PersonOutputDTO> getPersonById(@PathVariable UUID id) {
         Person person = personSvc.findById(id);
 
         PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(person);
@@ -56,7 +57,7 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable Long id, @RequestBody PersonInputDTO personInput) {
+    public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable UUID id, @RequestBody PersonInputDTO personInput) {
         Person person = personSvc.findById(id);
 
         Person newPerson = PersonMapper.Instance.personInputDTOToPerson(personInput);
@@ -67,13 +68,11 @@ public class PersonController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePersonById(@PathVariable Long id) {
+    public void deletePersonById(@PathVariable UUID id) {
         Person person = personSvc.findById(id);
 
         personSvc.delete(id);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

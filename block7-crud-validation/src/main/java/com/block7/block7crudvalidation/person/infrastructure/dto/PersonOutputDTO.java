@@ -5,6 +5,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * A DTO for the {@link com.block7.block7crudvalidation.person.domain.Person} entity
@@ -12,7 +13,7 @@ import java.util.Date;
 
 @Data
 public class PersonOutputDTO implements Serializable {
-    private Long id;
+    private UUID id;
     private String user;
     private String name;
     private String surname;
