@@ -1,5 +1,6 @@
 package com.block7.block7crudvalidation.person.application;
 
+import com.block7.block7crudvalidation.person.application.exception.EntityException;
 import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.person.infrastructure.exception.entityNotFound.EntityNotFoundException;
 import com.block7.block7crudvalidation.person.infrastructure.repository.PersonRepository;
@@ -62,6 +63,9 @@ public class PersonSvcImpl implements PersonSvc {
     @Override
     @Transactional
     public Person save(Person person) {
+        EntityException checkExceptions = new EntityException();
+        checkExceptions.onSave(person);
+
         return personRepository.save(person);
     }
 }
