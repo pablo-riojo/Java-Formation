@@ -3,6 +3,7 @@ package com.block7.block7crudvalidation.person.infrastructure.controller;
 import com.block7.block7crudvalidation.person.application.PersonSvc;
 import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonInputDTO;
+import com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonOutputDTO;
 import com.block7.block7crudvalidation.person.infrastructure.exception.entityNotFound.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class PersonController {
     @GetMapping("/all")
     public List<PersonOutputDTO> getAllPerson() {
         return personSvc.findAll().stream().map(
-               p -> com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper.Instance.personToPersonOutputDTO(p)
+               p -> PersonMapper.Instance.personToPersonOutputDTO(p)
         ).toList();
     }
 
@@ -31,7 +32,7 @@ public class PersonController {
     public ResponseEntity<PersonOutputDTO> getPersonById(@PathVariable Long id) {
         Person person = personSvc.findById(id);
 
-        PersonOutputDTO response = com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper.Instance.personToPersonOutputDTO(person);
+        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(person);
 
         return ResponseEntity.ok(response);
     }
@@ -40,17 +41,17 @@ public class PersonController {
     public ResponseEntity<PersonOutputDTO> getPersonByUser(@PathVariable String user) {
         Person person = personSvc.findByUser(user);
 
-        PersonOutputDTO response = com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper.Instance.personToPersonOutputDTO(person);
+        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(person);
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
     public ResponseEntity<PersonOutputDTO> createPerson(@RequestBody PersonInputDTO person) {
-        Person personMapped = com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper.Instance.personInputDTOToPerson(person);
+        Person personMapped = PersonMapper.Instance.personInputDTOToPerson(person);
         personSvc.save(personMapped);
 
-        PersonOutputDTO response = com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper.Instance.personToPersonOutputDTO(personMapped);
+        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(personMapped);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -59,10 +60,10 @@ public class PersonController {
     public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable Long id, @RequestBody PersonInputDTO newPerson) {
         Person personDB = personSvc.findById(id);
 
-        Person newPersonMapped = com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper.Instance.personInputDTOToPerson(newPerson);
+        Person newPersonMapped = PersonMapper.Instance.personInputDTOToPerson(newPerson);
         personSvc.update(newPersonMapped, id);
 
-        PersonOutputDTO response = com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper.Instance.personToPersonOutputDTO(newPersonMapped);
+        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(newPersonMapped);
         response.setUpdatedAt(new Date());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
