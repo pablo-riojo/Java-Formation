@@ -5,7 +5,6 @@ import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonInputDTO;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonOutputDTO;
-import com.block7.block7crudvalidation.person.infrastructure.exception.entityNotFound.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,30 +46,30 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonOutputDTO> createPerson(@RequestBody PersonInputDTO person) {
-        Person personMapped = PersonMapper.Instance.personInputDTOToPerson(person);
-        personSvc.save(personMapped);
+    public ResponseEntity<PersonOutputDTO> createPerson(@RequestBody PersonInputDTO personInput) {
+        Person newPerson = PersonMapper.Instance.personInputDTOToPerson(personInput);
+        personSvc.save(newPerson);
 
-        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(personMapped);
+        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(newPerson);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable Long id, @RequestBody PersonInputDTO newPerson) {
-        Person personDB = personSvc.findById(id);
+    public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable Long id, @RequestBody PersonInputDTO personInput) {
+        Person person = personSvc.findById(id);
 
-        Person newPersonMapped = PersonMapper.Instance.personInputDTOToPerson(newPerson);
-        personSvc.update(newPersonMapped, id);
+        Person newPerson = PersonMapper.Instance.personInputDTOToPerson(personInput);
+        personSvc.update(newPerson, id);
 
-        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(newPersonMapped);
+        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(newPerson);
         response.setUpdatedAt(new Date());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePersonById(@PathVariable Long id) throws EntityNotFoundException {
+    public ResponseEntity<?> deletePersonById(@PathVariable Long id) {
         Person person = personSvc.findById(id);
 
         personSvc.delete(id);
