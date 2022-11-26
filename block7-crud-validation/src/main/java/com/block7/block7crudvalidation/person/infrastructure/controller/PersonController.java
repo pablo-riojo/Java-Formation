@@ -7,7 +7,6 @@ import com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -29,34 +28,36 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PersonOutputDTO> getPersonById(@PathVariable UUID id) {
+    public PersonOutputDTO getPersonById(@PathVariable UUID id) {
         Person person = personSvc.findById(id);
 
         PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(person);
 
-        return ResponseEntity.ok(response);
+        return response;
     }
 
     @GetMapping("/user/{user}")
-    public ResponseEntity<PersonOutputDTO> getPersonByUser(@PathVariable String user) {
+    public PersonOutputDTO getPersonByUser(@PathVariable String user) {
         Person person = personSvc.findByUser(user);
 
         PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(person);
 
-        return ResponseEntity.ok(response);
+        return response;
     }
 
     @PostMapping
-    public ResponseEntity<PersonOutputDTO> createPerson(@RequestBody PersonInputDTO personInput) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public PersonOutputDTO createPerson(@RequestBody PersonInputDTO personInput) {
         Person newPerson = PersonMapper.Instance.personInputDTOToPerson(personInput);
 
         PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(personSvc.save(newPerson));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return response;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonOutputDTO> updatePerson(@PathVariable UUID id, @RequestBody PersonInputDTO personInput) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public PersonOutputDTO updatePerson(@PathVariable UUID id, @RequestBody PersonInputDTO personInput) {
         Person person = personSvc.findById(id);
 
         Person newPerson = PersonMapper.Instance.personInputDTOToPerson(personInput);
@@ -65,7 +66,7 @@ public class PersonController {
         );
         response.setUpdatedAt(new Date());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return response;
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
