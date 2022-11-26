@@ -1,5 +1,6 @@
 package com.block7.block7crudvalidation.person.domain;
 
+import com.block7.block7crudvalidation.professor.domain.Professor;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,8 +18,12 @@ import java.util.UUID;
 public class Person {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false, columnDefinition = "uuid")
+    @Column(name = "person_id", nullable = false, columnDefinition = "uuid")
     private UUID id;
+
+    @OneToOne
+    @JoinColumn(name = "professor_id", unique = true)
+    private Professor professor;
 
     @Column(name = "user_name", nullable = false, length = 10)
     private String user;
