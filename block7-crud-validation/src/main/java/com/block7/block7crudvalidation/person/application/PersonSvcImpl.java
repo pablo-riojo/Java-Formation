@@ -1,5 +1,6 @@
 package com.block7.block7crudvalidation.person.application;
 
+import com.block7.block7crudvalidation.exception.unprocessableEntity.UnprocessableEntityException;
 import com.block7.block7crudvalidation.person.application.exception.EntityException;
 import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.exception.entityNotFound.EntityNotFoundException;
@@ -38,12 +39,12 @@ public class PersonSvcImpl implements PersonSvc {
 
     @Override
     @Transactional
-    public void update(Person newPerson, UUID id) {
+    public Person update(Person newPerson, UUID id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person with ID " + id + " not found"));
 
         boolean equals = Objects.equals(person, newPerson);
         if (equals) {
-            throw new IllegalArgumentException("The new person is the same as the old one");
+            throw new UnprocessableEntityException("Cannot update. The new person is the same as the old one");
         }
 
         newPerson.setId(id);
@@ -51,7 +52,7 @@ public class PersonSvcImpl implements PersonSvc {
         newPerson.setUpdatedAt(new Date());
 
 
-        personRepository.save(newPerson);
+       return personRepository.save(newPerson);
     }
 
     @Override
@@ -62,8 +63,9 @@ public class PersonSvcImpl implements PersonSvc {
 
     @Override
     @Transactional
-    public void save(Person person) {
+    public Person save(Person person) {
         EntityException.onSave(person);
-        personRepository.save(person);
+
+        return personRepository.save(person);
     }
 }

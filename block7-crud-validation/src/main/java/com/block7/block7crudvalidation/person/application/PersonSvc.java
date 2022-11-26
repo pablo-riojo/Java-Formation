@@ -9,7 +9,7 @@ public interface PersonSvc {
     List<Person> findAll();
     Person findById(UUID id);
     Person findByUser(String user);
-    void update(Person newPerson, UUID id);
+    Person update(Person newPerson, UUID id);
     void delete(UUID id);
-    void save(Person person);
+    Person save(Person person);
 }

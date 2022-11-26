@@ -1,9 +1,10 @@
 package com.block7.block7crudvalidation.person.domain;
 
-import com.block7.block7crudvalidation.professor.domain.Professor;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,10 +21,6 @@ public class Person {
     @GeneratedValue
     @Column(name = "person_id", nullable = false, columnDefinition = "uuid")
     private UUID id;
-
-    @OneToOne
-    @JoinColumn(name = "professor_id", unique = true)
-    private Professor professor;
 
     @Column(name = "user_name", nullable = false, length = 10)
     private String user;

@@ -49,9 +49,8 @@ public class PersonController {
     @PostMapping
     public ResponseEntity<PersonOutputDTO> createPerson(@RequestBody PersonInputDTO personInput) {
         Person newPerson = PersonMapper.Instance.personInputDTOToPerson(personInput);
-        personSvc.save(newPerson);
 
-        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(newPerson);
+        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(personSvc.save(newPerson));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -61,13 +60,14 @@ public class PersonController {
         Person person = personSvc.findById(id);
 
         Person newPerson = PersonMapper.Instance.personInputDTOToPerson(personInput);
-        personSvc.update(newPerson, id);
 
-        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(newPerson);
+        PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(personSvc.update(newPerson, id)
+        );
         response.setUpdatedAt(new Date());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deletePersonById(@PathVariable UUID id) {
