@@ -1,8 +1,5 @@
 package com.block7.block7crudvalidation.professor.infrastructure.controller;
 
-import com.block7.block7crudvalidation.person.application.PersonSvc;
-import com.block7.block7crudvalidation.person.domain.Person;
-import com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper;
 import com.block7.block7crudvalidation.professor.application.ProfessorSvc;
 import com.block7.block7crudvalidation.professor.domain.Professor;
 import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorInputDTO;
@@ -12,19 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("UnnecessaryLocalVariable")
 @RestController
 @RequestMapping("/professor")
 public class ProfessorController {
     @Autowired
     ProfessorSvc professorSvc;
-    @Autowired
-    PersonSvc personSvc;
 
     @GetMapping("/all")
-    public List<ProfessorOutputDTO> getAllProfessor() {
+    public List<ProfessorOutputDTO> getAllProfessors() {
         return professorSvc.findAll().stream().map(
                 ProfessorMapper.Instance::professorToProfessorOutputDTO
         ).toList();
@@ -40,17 +37,18 @@ public class ProfessorController {
     }
 
     @GetMapping("/person/{id}")
-    public ProfessorOutputDTO getProfessorByPersonId() {
-        return null;
+    public ProfessorOutputDTO getProfessorByPersonId(@PathVariable UUID id) {
+        Professor professor = professorSvc.findByPersonId(id);
+
+        ProfessorOutputDTO response = ProfessorMapper.Instance.professorToProfessorOutputDTO(professor);
+
+        return response;
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ProfessorOutputDTO createProfessor(@RequestBody ProfessorInputDTO professorInput) {
-        Person personProfessor = PersonMapper.Instance.personInputDTOToPerson(professorInput.getPerson());
-        UUID personId = personSvc.save(personProfessor).getId();
-
         Professor professor = ProfessorMapper.Instance.professorInputDTOToProfessor(professorInput);
-        professor.getPerson().setId(personId);
 
         ProfessorOutputDTO response = ProfessorMapper.Instance.professorToProfessorOutputDTO(professorSvc.save(professor));
 
@@ -58,8 +56,14 @@ public class ProfessorController {
     }
 
     @PutMapping("/{id}")
-    public ProfessorOutputDTO updateProfessor(@PathVariable UUID id, ProfessorInputDTO professorInput) {
-        return null;
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProfessorOutputDTO updateProfessor(@PathVariable UUID id, @RequestBody ProfessorInputDTO professorInput) {
+        Professor newProfessor = ProfessorMapper.Instance.professorInputDTOToProfessor(professorInput);
+
+        ProfessorOutputDTO response = ProfessorMapper.Instance.professorToProfessorOutputDTO(professorSvc.update(newProfessor, id));
+        response.setUpdatedAt(new Date());
+
+        return response;
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

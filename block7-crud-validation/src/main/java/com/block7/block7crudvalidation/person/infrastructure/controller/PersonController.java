@@ -21,7 +21,7 @@ public class PersonController {
     PersonSvc personSvc;
 
     @GetMapping("/all")
-    public List<PersonOutputDTO> getAllPerson() {
+    public List<PersonOutputDTO> getAllPersons() {
         return personSvc.findAll().stream().map(
                p -> PersonMapper.Instance.personToPersonOutputDTO(p)
         ).toList();
@@ -58,8 +58,6 @@ public class PersonController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public PersonOutputDTO updatePerson(@PathVariable UUID id, @RequestBody PersonInputDTO personInput) {
-        Person person = personSvc.findById(id);
-
         Person newPerson = PersonMapper.Instance.personInputDTOToPerson(personInput);
 
         PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(personSvc.update(newPerson, id)

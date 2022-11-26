@@ -22,6 +22,10 @@ public class Person {
     @Column(name = "person_id", nullable = false, columnDefinition = "uuid")
     private UUID id;
 
+    @Column(name = "professor_id", columnDefinition = "uuid")
+    private UUID professorId;
+
+
     @Column(name = "user_name", nullable = false, length = 10)
     private String user;
 
@@ -42,6 +46,9 @@ public class Person {
 
     @Column(name = "city", nullable = false)
     private String city;
+
+    @Column(name= "isProfessor")
+    private Boolean isProfessor = false;
 
     @Column(name = "active", nullable = false)
     private Boolean active;

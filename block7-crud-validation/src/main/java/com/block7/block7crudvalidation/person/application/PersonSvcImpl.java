@@ -1,9 +1,9 @@
 package com.block7.block7crudvalidation.person.application;
 
-import com.block7.block7crudvalidation.exception.unprocessableEntity.UnprocessableEntityException;
+import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.UnprocessableEntityException;
 import com.block7.block7crudvalidation.person.application.exception.EntityException;
 import com.block7.block7crudvalidation.person.domain.Person;
-import com.block7.block7crudvalidation.exception.entityNotFound.EntityNotFoundException;
+import com.block7.block7crudvalidation.shared.exception.entityNotFound.EntityNotFoundException;
 import com.block7.block7crudvalidation.person.infrastructure.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
