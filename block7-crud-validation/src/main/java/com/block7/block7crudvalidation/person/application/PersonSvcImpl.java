@@ -1,17 +1,16 @@
 package com.block7.block7crudvalidation.person.application;
 
-import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.UnprocessableEntityException;
-import com.block7.block7crudvalidation.person.application.exception.EntityException;
+import com.block7.block7crudvalidation.person.application.utils.CheckUpdate;
+import com.block7.block7crudvalidation.person.application.utils.EntityException;
 import com.block7.block7crudvalidation.person.domain.Person;
-import com.block7.block7crudvalidation.shared.exception.entityNotFound.EntityNotFoundException;
 import com.block7.block7crudvalidation.person.infrastructure.repository.PersonRepository;
+import com.block7.block7crudvalidation.shared.exception.entityNotFound.EntityNotFoundException;
+import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.UnprocessableEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -42,15 +41,9 @@ public class PersonSvcImpl implements PersonSvc {
     public Person update(Person newPerson, UUID id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person with ID " + id + " not found"));
 
-        boolean equals = Objects.equals(person, newPerson);
-        if (equals) {
-            throw new UnprocessableEntityException("Cannot update. The new person is the same as the old one");
-        }
+        if (CheckUpdate.checkEquals(newPerson, person)) throw new UnprocessableEntityException("Cannot update. Both persons are equals");
 
-        newPerson.setId(id);
-        newPerson.setCreatedAt(person.getCreatedAt());
-        newPerson.setUpdatedAt(new Date());
-
+        newPerson.setUpdateEffects(newPerson, person, id);
 
        return personRepository.save(newPerson);
     }

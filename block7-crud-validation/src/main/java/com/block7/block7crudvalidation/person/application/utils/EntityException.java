@@ -1,4 +1,4 @@
-package com.block7.block7crudvalidation.person.application.exception;
+package com.block7.block7crudvalidation.person.application.utils;
 
 import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.UnprocessableEntityException;

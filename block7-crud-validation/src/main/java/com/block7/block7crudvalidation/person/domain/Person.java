@@ -1,10 +1,13 @@
 package com.block7.block7crudvalidation.person.domain;
 
-import lombok.*;
+import com.block7.block7crudvalidation.professor.domain.Professor;
+import com.block7.block7crudvalidation.student.domain.Student;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,8 +50,17 @@ public class Person {
     @Column(name = "city", nullable = false)
     private String city;
 
-    @Column(name= "isProfessor")
+    @Column(name = "isProfessor")
     private Boolean isProfessor = false;
+
+    @OneToOne(mappedBy = "person")
+    private Professor professor;
+
+    @Column(name = "isStudent")
+    private Boolean isStudent = false;
+
+    @OneToOne(mappedBy = "person")
+    private Student student;
 
     @Column(name = "active", nullable = false)
     private Boolean active;
@@ -64,6 +76,16 @@ public class Person {
 
     @Column(name = "termination_date", nullable = false)
     private final Date terminationDate = setTerminationDate();
+
+    // TODO: set student and professor
+    public void setPersonRelations() {
+    }
+
+    public void setUpdateEffects(Person newPerson, Person personDb, UUID id) {
+        newPerson.setId(id);
+        newPerson.setCreatedAt(personDb.getCreatedAt());
+        newPerson.setUpdatedAt(new Date());
+    }
 
     public Date setTerminationDate() {
         Calendar c = Calendar.getInstance();

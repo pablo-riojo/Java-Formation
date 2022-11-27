@@ -10,4 +10,6 @@ public interface PersonMapper {
 
     PersonOutputDTO personToPersonOutputDTO(Person person);
     Person personInputDTOToPerson(PersonInputDTO personInputDTO);
+
+    PersonUpdateDTO personToPersonUpdateDTO(Person person);
 }
