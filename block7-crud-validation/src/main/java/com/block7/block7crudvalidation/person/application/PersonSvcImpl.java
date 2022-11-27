@@ -1,6 +1,6 @@
 package com.block7.block7crudvalidation.person.application;
 
-import com.block7.block7crudvalidation.person.application.utils.CheckUpdate;
+import com.block7.block7crudvalidation.person.application.utils.UpdateCheckings;
 import com.block7.block7crudvalidation.person.application.utils.EntityException;
 import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.person.infrastructure.repository.PersonRepository;
@@ -41,7 +41,8 @@ public class PersonSvcImpl implements PersonSvc {
     public Person update(Person newPerson, UUID id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person with ID " + id + " not found"));
 
-        if (CheckUpdate.checkEquals(newPerson, person)) throw new UnprocessableEntityException("Cannot update. Both persons are equals");
+        if (UpdateCheckings.isNewPersonEqual(newPerson, person)) throw new UnprocessableEntityException("Cannot update. Both persons are equal");
+        if (!UpdateCheckings.isSameEmail(newPerson, person)) throw new UnprocessableEntityException("Cannot update. It must be same email: " + person.getEmail());
 
         newPerson.setUpdateEffects(newPerson, person, id);
 

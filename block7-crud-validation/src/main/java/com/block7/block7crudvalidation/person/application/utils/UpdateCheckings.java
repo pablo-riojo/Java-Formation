@@ -6,11 +6,15 @@ import com.block7.block7crudvalidation.person.infrastructure.dto.PersonUpdateDTO
 
 import java.util.Objects;
 
-public class CheckUpdate {
-    public static Boolean checkEquals(Person newPerson, Person person) {
+public class UpdateCheckings {
+    public static Boolean isNewPersonEqual(Person newPerson, Person person) {
         PersonUpdateDTO newPersonUpdateDTO = PersonMapper.Instance.personToPersonUpdateDTO(newPerson);
         PersonUpdateDTO personUpdateDTO = PersonMapper.Instance.personToPersonUpdateDTO(person);
 
         return Objects.equals(newPersonUpdateDTO, personUpdateDTO);
+    }
+
+    public static Boolean isSameEmail(Person newPerson, Person person) {
+        return Objects.equals(newPerson.getEmail(), person.getEmail());
     }
 }
