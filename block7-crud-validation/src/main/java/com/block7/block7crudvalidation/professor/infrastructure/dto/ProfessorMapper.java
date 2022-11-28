@@ -10,4 +10,6 @@ public interface ProfessorMapper {
 
     ProfessorOutputDTO professorToProfessorOutputDTO(Professor professor);
     Professor professorInputDTOToProfessor(ProfessorInputDTO professorInputDTO);
+
+    ProfessorUpdateDTO professorToProfessorUpdateDTO(Professor professor);
 }
