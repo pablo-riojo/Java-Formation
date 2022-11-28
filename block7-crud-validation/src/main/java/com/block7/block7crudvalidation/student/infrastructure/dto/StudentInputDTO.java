@@ -11,7 +11,7 @@ import java.util.List;
 public class StudentInputDTO {
     PersonInputDTO person;
     ProfessorInputDTO professor;
-    List<SubjectInputDTO> subjects;
+    List<SubjectInputDTO> subject;
     int weekHours;
     String comments;
     String branch;

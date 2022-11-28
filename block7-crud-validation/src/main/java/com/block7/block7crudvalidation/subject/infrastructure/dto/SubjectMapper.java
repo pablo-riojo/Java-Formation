@@ -9,6 +9,10 @@ public interface SubjectMapper {
     SubjectMapper Instance = Mappers.getMapper(SubjectMapper.class);
 
     SubjectOutputDTO subjectToSubjectOutputDTO(Subject subject);
+
     Subject subjectInputDTOtoSubject(SubjectInputDTO subjectInputDTO);
+
     SubjectUpdateDTO subjectToSubjectUpdateDTO(Subject subject);
+
+    SubjectSimpleOutputDTO subjectToSubjectSimpleOutputDTO(Subject subject);
 }

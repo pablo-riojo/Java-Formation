@@ -5,6 +5,9 @@ import com.block7.block7crudvalidation.student.domain.Student;
 import com.block7.block7crudvalidation.student.infrastructure.dto.StudentInputDTO;
 import com.block7.block7crudvalidation.student.infrastructure.dto.StudentMapper;
 import com.block7.block7crudvalidation.student.infrastructure.dto.StudentOutputDTO;
+import com.block7.block7crudvalidation.subject.domain.Subject;
+import com.block7.block7crudvalidation.subject.infrastructure.dto.SubjectMapper;
+import com.block7.block7crudvalidation.subject.infrastructure.dto.SubjectSimpleOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +43,13 @@ public class StudentController {
     @ResponseStatus(HttpStatus.CREATED)
     public StudentOutputDTO createStudent(@RequestBody StudentInputDTO studentInput) {
         Student student = StudentMapper.Instance.studentInputDTOtoStudent(studentInput);
+        List<Subject> subjects = studentInput.getSubject().stream().map(SubjectMapper.Instance::subjectInputDTOtoSubject).toList();
+
+        student.setSubject(subjects);
 
         StudentOutputDTO response = StudentMapper.Instance.studentToStudentOutputDTO(studentSvc.save(student));
+        List<SubjectSimpleOutputDTO> subjectOutput = student.getSubject().stream().map(SubjectMapper.Instance::subjectToSubjectSimpleOutputDTO).toList();
+        response.setSubjects(subjectOutput);
 
         return response;
     }

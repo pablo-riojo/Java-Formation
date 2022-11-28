@@ -69,7 +69,6 @@ public class StudentSvcImpl implements StudentSvc {
         // TODO: Entity exception
         if (student.getProfessor() != null) student.setProfessorStudents(student);
 
-
         return studentRepository.save(student);
     }
 }
