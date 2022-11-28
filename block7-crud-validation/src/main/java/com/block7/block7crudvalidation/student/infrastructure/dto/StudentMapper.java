@@ -10,4 +10,6 @@ public interface StudentMapper {
 
     StudentOutputDTO studentToStudentOutputDTO(Student student);
     Student studentInputDTOtoStudent(StudentInputDTO studentInputDTO);
+
+    StudentUpdateDTO studentToStudentUpdateDTO(Student student);
 }

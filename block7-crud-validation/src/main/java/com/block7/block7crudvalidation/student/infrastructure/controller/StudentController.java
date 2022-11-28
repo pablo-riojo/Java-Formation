@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,5 +44,16 @@ public class StudentController {
         StudentOutputDTO response = StudentMapper.Instance.studentToStudentOutputDTO(studentSvc.save(student));
 
         return response;
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public StudentOutputDTO updateStudent(@RequestBody StudentInputDTO studentInput, @PathVariable UUID id) {
+            Student newStudent = StudentMapper.Instance.studentInputDTOtoStudent(studentInput);
+
+            StudentOutputDTO response = StudentMapper.Instance.studentToStudentOutputDTO(studentSvc.update(newStudent, id));
+            response.setUpdatedAt(new Date());
+
+            return response;
     }
 }

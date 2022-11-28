@@ -46,4 +46,6 @@ public class Student {
 
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    // TODO: Set person.student
 }
