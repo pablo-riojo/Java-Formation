@@ -6,7 +6,7 @@ import com.block7.block7crudvalidation.person.infrastructure.dto.PersonUpdateDTO
 
 import java.util.Objects;
 
-public class UpdateCheckings {
+public class PersonCheckings {
     public static Boolean isNewPersonEqual(Person newPerson, Person person) {
         PersonUpdateDTO newPersonUpdateDTO = PersonMapper.Instance.personToPersonUpdateDTO(newPerson);
         PersonUpdateDTO personUpdateDTO = PersonMapper.Instance.personToPersonUpdateDTO(person);

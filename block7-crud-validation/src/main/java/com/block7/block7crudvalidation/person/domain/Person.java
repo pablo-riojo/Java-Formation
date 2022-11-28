@@ -77,10 +77,6 @@ public class Person {
     @Column(name = "termination_date", nullable = false)
     private final Date terminationDate = setTerminationDate();
 
-    // TODO: set student and professor
-    public void setPersonRelations() {
-    }
-
     public void setUpdateEffects(Person newPerson, Person personDb, UUID id) {
         newPerson.setId(id);
         newPerson.setCreatedAt(personDb.getCreatedAt());
