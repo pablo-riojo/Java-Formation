@@ -1,11 +1,13 @@
 package com.block7.block7crudvalidation.person.application;
 
-import com.block7.block7crudvalidation.person.application.utils.PersonCheckings;
 import com.block7.block7crudvalidation.person.application.utils.EntityException;
+import com.block7.block7crudvalidation.person.application.utils.PersonCheckings;
 import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.person.infrastructure.repository.PersonRepository;
 import com.block7.block7crudvalidation.shared.exception.entityNotFound.EntityNotFoundException;
 import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.UnprocessableEntityException;
+import com.block7.block7crudvalidation.student.domain.Student;
+import com.block7.block7crudvalidation.student.infrastructure.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("ALL")
 @Service
 public class PersonSvcImpl implements PersonSvc {
     @Autowired
     private PersonRepository personRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -52,6 +57,14 @@ public class PersonSvcImpl implements PersonSvc {
     @Override
     @Transactional
     public void delete(UUID id) {
+        Person person = personRepository.findById(id).get();
+        if (person.getIsStudent()) {
+            Student student = studentRepository.findByPersonId(person.getId()).get();
+            student.setSubject(null);
+
+            studentRepository.save(student);
+        }
+
         personRepository.deleteById(id);
     }
 

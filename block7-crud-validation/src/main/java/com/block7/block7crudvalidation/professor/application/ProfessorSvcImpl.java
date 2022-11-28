@@ -52,6 +52,13 @@ public class ProfessorSvcImpl implements ProfessorSvc {
 
     @Override
     public void delete(UUID id) {
+        Professor professor = professorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Professor with ID " + id + " not found"));
+        // TODO: delete effects
+        professor.getStudents().forEach(s -> s.setProfessor(null));
+        professor.setStudents(null);
+
+        professorRepository.save(professor);
+
         professorRepository.deleteById(id);
     }
 

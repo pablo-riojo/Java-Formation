@@ -61,6 +61,14 @@ public class StudentSvcImpl implements StudentSvc {
 
     @Override
     public void delete(UUID id) {
+        Student student = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Student with ID " + id + " not found"));
+        //TODO: delete effects
+        student.setSubject(null);
+        student.getProfessor().setStudents(null);
+        student.setProfessor(null);
+
+        studentRepository.save(student);
+
         studentRepository.deleteById(id);
     }
 

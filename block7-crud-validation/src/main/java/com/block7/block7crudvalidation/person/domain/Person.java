@@ -49,13 +49,13 @@ public class Person {
     @Column(name = "isProfessor")
     private Boolean isProfessor = false;
 
-    @OneToOne(mappedBy = "person")
+    @OneToOne(mappedBy = "person", cascade = CascadeType.REMOVE)
     private Professor professor;
 
     @Column(name = "isStudent")
     private Boolean isStudent = false;
 
-    @OneToOne(mappedBy = "person")
+    @OneToOne(mappedBy = "person", cascade = CascadeType.REMOVE)
     private Student student;
 
     @Column(name = "active", nullable = false)
