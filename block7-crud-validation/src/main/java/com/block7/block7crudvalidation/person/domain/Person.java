@@ -52,10 +52,10 @@ public class Person {
 
     @Column(name = "isProfessor")
     private Boolean isProfessor = false;
-
+//TODO: Save professor ID
     @OneToOne(mappedBy = "person")
     private Professor professor;
-
+//TODO: Save student ID
     @Column(name = "isStudent")
     private Boolean isStudent = false;
 
