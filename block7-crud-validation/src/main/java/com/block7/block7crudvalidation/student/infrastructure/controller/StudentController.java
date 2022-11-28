@@ -43,13 +43,18 @@ public class StudentController {
     @ResponseStatus(HttpStatus.CREATED)
     public StudentOutputDTO createStudent(@RequestBody StudentInputDTO studentInput) {
         Student student = StudentMapper.Instance.studentInputDTOtoStudent(studentInput);
-        List<Subject> subjects = studentInput.getSubject().stream().map(SubjectMapper.Instance::subjectInputDTOtoSubject).toList();
 
-        student.setSubject(subjects);
+        if(studentInput.getSubject() != null) {
+            List<Subject> subjects = studentInput.getSubject().stream().map(SubjectMapper.Instance::subjectInputDTOtoSubject).toList();
+            student.setSubject(subjects);
+        }
 
         StudentOutputDTO response = StudentMapper.Instance.studentToStudentOutputDTO(studentSvc.save(student));
-        List<SubjectSimpleOutputDTO> subjectOutput = student.getSubject().stream().map(SubjectMapper.Instance::subjectToSubjectSimpleOutputDTO).toList();
-        response.setSubjects(subjectOutput);
+
+        if (student.getSubject() != null) {
+            List<SubjectSimpleOutputDTO> subjectOutput = student.getSubject().stream().map(SubjectMapper.Instance::subjectToSubjectSimpleOutputDTO).toList();
+            response.setSubjects(subjectOutput);
+        }
 
         return response;
     }
