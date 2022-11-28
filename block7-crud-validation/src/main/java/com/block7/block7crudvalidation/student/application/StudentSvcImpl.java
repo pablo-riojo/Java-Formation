@@ -32,6 +32,7 @@ public class StudentSvcImpl implements StudentSvc {
         return studentRepository.findByPersonId(id).orElseThrow(() -> new EntityNotFoundException("Student with person ID " + id + " not found"));
     }
 
+    // TODO: findByProfessorId
 //    @Override
 //    public Student findByProfessorId(UUID id) {
 //        return studentRepository.findByProfessorId(id).orElseThrow(() -> new EntityNotFoundException("Student with professor ID " + id + " not found"));
@@ -65,11 +66,9 @@ public class StudentSvcImpl implements StudentSvc {
 
     @Override
     public Student save(Student student) {
-        if (student.getProfessor() != null) {
-            student.getProfessor().setStudents(List.of(student));
+        // TODO: Entity exception
+        if (student.getProfessor() != null) student.setProfessorStudents(student);
 
-            student.getProfessor().getPerson().setIsProfessor(true);
-        }
 
         return studentRepository.save(student);
     }

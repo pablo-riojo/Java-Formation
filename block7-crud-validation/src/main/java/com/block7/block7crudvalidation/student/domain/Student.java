@@ -2,6 +2,7 @@ package com.block7.block7crudvalidation.student.domain;
 
 import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.professor.domain.Professor;
+import com.block7.block7crudvalidation.subject.domain.Subject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -32,6 +34,11 @@ public class Student {
     @ToString.Exclude
     private Professor professor;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "student_subjects")
+    @ToString.Exclude
+    private List<Subject> subject;
+
     @Column(name = "week_hours", nullable = false)
     private int weekHours;
 
@@ -48,4 +55,11 @@ public class Student {
     private Date updatedAt;
 
     // TODO: Set person.student
+    public void setProfessorStudents(Student student) {
+        student.professor.setProfessorPerson(student.professor);
+        student.professor.setStudents(List.of(student));
+
+        student.person.setIsStudent(true);
+        student.person.setStudent(student);
+}
 }
