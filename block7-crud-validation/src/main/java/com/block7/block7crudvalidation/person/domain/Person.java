@@ -25,10 +25,6 @@ public class Person {
     @Column(name = "person_id", nullable = false, columnDefinition = "uuid")
     private UUID id;
 
-    @Column(name = "professor_id", columnDefinition = "uuid")
-    private UUID professorId;
-
-
     @Column(name = "user_name", nullable = false, length = 10)
     private String user;
 
@@ -52,10 +48,10 @@ public class Person {
 
     @Column(name = "isProfessor")
     private Boolean isProfessor = false;
-//TODO: Save professor ID
+
     @OneToOne(mappedBy = "person")
     private Professor professor;
-//TODO: Save student ID
+
     @Column(name = "isStudent")
     private Boolean isStudent = false;
 

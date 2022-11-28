@@ -54,12 +54,10 @@ public class Student {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    // TODO: Set person.student
     public void setProfessorStudents(Student student) {
         student.professor.setProfessorPerson(student.professor);
         student.professor.setStudents(List.of(student));
 
         student.person.setIsStudent(true);
-        student.person.setStudent(student);
-}
+    }
 }
