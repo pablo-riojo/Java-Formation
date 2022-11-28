@@ -57,6 +57,8 @@ public class ProfessorSvcImpl implements ProfessorSvc {
 
     @Override
     public Professor save(Professor professor) {
+        professor.setProfessorPerson(professor);
+
         return professorRepository.save(professor);
     }
 }

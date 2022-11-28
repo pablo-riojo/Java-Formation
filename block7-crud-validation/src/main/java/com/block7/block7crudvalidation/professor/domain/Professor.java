@@ -28,7 +28,7 @@ public class Professor {
     @JoinColumn(name = "person_id", nullable = false, unique = true)
     private Person person;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany
     @ToString.Exclude
     private List<Student> students;
 
@@ -44,5 +44,8 @@ public class Professor {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    // TODO: Set person.professor
+    public void setProfessorPerson(Professor professor) {
+        professor.person.setIsProfessor(true);
+        professor.setPerson(professor.person);
+    }
 }
