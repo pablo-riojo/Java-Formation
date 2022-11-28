@@ -56,4 +56,10 @@ public class StudentController {
 
             return response;
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStudent(@PathVariable UUID id) {
+        studentSvc.delete(id);
+    }
 }
