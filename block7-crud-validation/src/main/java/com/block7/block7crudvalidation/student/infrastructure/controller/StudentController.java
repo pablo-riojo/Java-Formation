@@ -40,6 +40,15 @@ public class StudentController {
         return response;
     }
 
+    @GetMapping("/{id}/subjects")
+    public List<SubjectSimpleOutputDTO> getSubjects(@PathVariable UUID id) {
+        Student student = studentSvc.findById(id);
+
+        return student.getSubject().stream().map(
+                SubjectMapper.Instance::subjectToSubjectSimpleOutputDTO
+        ).toList();
+    }
+
     private StudentSimpleOutputDTO getStudentSimpleById(UUID id) {
         Student student = studentSvc.findById(id);
 
