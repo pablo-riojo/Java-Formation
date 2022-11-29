@@ -60,4 +60,21 @@ public class Student {
 
         student.person.setIsStudent(true);
     }
+
+    public void setUpdateEffects(Student newStudent, UUID id, Student student) {
+        newStudent.setId(id);
+        newStudent.getPerson().setId(student.getPerson().getId());
+        newStudent.getProfessor().setId(student.getProfessor().getId());
+        newStudent.getProfessor().getPerson().setId(student.getProfessor().getPerson().getId());
+        newStudent.setCreatedAt(student.getCreatedAt());
+        newStudent.getPerson().setCreatedAt(student.getPerson().getCreatedAt());
+        newStudent.getPerson().setUpdatedAt(new Date());
+        newStudent.setUpdatedAt(new Date());
+    }
+
+    public void setDeleteEffects(Student student) {
+        student.setSubject(null);
+        student.getProfessor().setStudents(null);
+        student.setProfessor(null);
+    }
 }

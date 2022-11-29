@@ -1,10 +1,12 @@
 package com.block7.block7crudvalidation.student.infrastructure.controller;
 
+import com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper;
 import com.block7.block7crudvalidation.student.application.StudentSvc;
 import com.block7.block7crudvalidation.student.domain.Student;
 import com.block7.block7crudvalidation.student.infrastructure.dto.StudentInputDTO;
 import com.block7.block7crudvalidation.student.infrastructure.dto.StudentMapper;
 import com.block7.block7crudvalidation.student.infrastructure.dto.StudentOutputDTO;
+import com.block7.block7crudvalidation.student.infrastructure.dto.StudentSimpleOutputDTO;
 import com.block7.block7crudvalidation.subject.domain.Subject;
 import com.block7.block7crudvalidation.subject.infrastructure.dto.SubjectMapper;
 import com.block7.block7crudvalidation.subject.infrastructure.dto.SubjectSimpleOutputDTO;
@@ -37,6 +39,15 @@ public class StudentController {
         StudentOutputDTO response = StudentMapper.Instance.studentToStudentOutputDTO(student);
 
         return response;
+    }
+
+    @GetMapping
+    public List<StudentSimpleOutputDTO> getStudentsByProfessorId(@RequestParam(name = "professor") UUID id) {
+        studentSvc.findByProfessorId(id).forEach(student -> PersonMapper.Instance.personToPersonSimpleOutputDTO(student.getPerson()));
+
+        return studentSvc.findByProfessorId(id).stream().map(
+                StudentMapper.Instance::studentToStudentSimpleOutputDTO
+        ).toList();
     }
 
     @PostMapping

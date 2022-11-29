@@ -9,7 +9,7 @@ public interface StudentMapper {
     StudentMapper Instance = Mappers.getMapper(StudentMapper.class);
 
     StudentOutputDTO studentToStudentOutputDTO(Student student);
+    StudentSimpleOutputDTO studentToStudentSimpleOutputDTO(Student student);
     Student studentInputDTOtoStudent(StudentInputDTO studentInputDTO);
-
     StudentUpdateDTO studentToStudentUpdateDTO(Student student);
 }

@@ -8,7 +8,6 @@ import com.block7.block7crudvalidation.student.infrastructure.repository.Student
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,11 +31,10 @@ public class StudentSvcImpl implements StudentSvc {
         return studentRepository.findByPersonId(id).orElseThrow(() -> new EntityNotFoundException("Student with person ID " + id + " not found"));
     }
 
-    // TODO: findByProfessorId
-//    @Override
-//    public Student findByProfessorId(UUID id) {
-//        return studentRepository.findByProfessorId(id).orElseThrow(() -> new EntityNotFoundException("Student with professor ID " + id + " not found"));
-//    }
+    @Override
+    public List<Student> findByProfessorId(UUID id) {
+        return studentRepository.findByProfessorId(id).orElseThrow(() -> new EntityNotFoundException("Students with professor ID " + id + " not found"));
+    }
 
     @Override
     public Student update(Student newStudent, UUID id) {
@@ -45,16 +43,7 @@ public class StudentSvcImpl implements StudentSvc {
         if (StudentCheckings.isNewStudentEqual(newStudent, student)) throw  new UnprocessableEntityException("Cannot update. Both students are equal");
         if (!StudentCheckings.isSameEmail(newStudent, student)) throw new UnprocessableEntityException("Cannot update. It must be same email: " + student.getPerson().getEmail());
 
-
-        // TODO: Student update effects
-        newStudent.setId(id);
-        newStudent.getPerson().setId(student.getPerson().getId());
-        newStudent.getProfessor().setId(student.getProfessor().getId());
-        newStudent.getProfessor().getPerson().setId(student.getProfessor().getPerson().getId());
-        newStudent.setCreatedAt(student.getCreatedAt());
-        newStudent.getPerson().setCreatedAt(student.getPerson().getCreatedAt());
-//        newStudent.getPerson().setUpdatedAt(new Date());
-        newStudent.setUpdatedAt(new Date());
+        newStudent.setUpdateEffects(newStudent, id, student);
 
         return studentRepository.save(newStudent);
     }
@@ -62,10 +51,8 @@ public class StudentSvcImpl implements StudentSvc {
     @Override
     public void delete(UUID id) {
         Student student = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Student with ID " + id + " not found"));
-        //TODO: delete effects
-        student.setSubject(null);
-        student.getProfessor().setStudents(null);
-        student.setProfessor(null);
+
+        student.setDeleteEffects(student);
 
         studentRepository.save(student);
 

@@ -9,7 +9,9 @@ public interface StudentSvc {
     List<Student> findAll();
     Student findById(UUID id);
     Student findByPersonId(UUID id);
-//    Student findByProfessorId(UUID id);
+
+    List<Student> findByProfessorId(UUID id);
+
     Student update(Student newStudent, UUID id);
     void delete(UUID id);
     Student save(Student student);
