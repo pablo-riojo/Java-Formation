@@ -8,7 +8,6 @@ import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.Unpr
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,13 +38,8 @@ public class ProfessorSvcImpl implements ProfessorSvc {
         if (ProfessorCheckings.isNewProfessorEqual(newProfessor, professor)) throw new UnprocessableEntityException("Cannot update. Both professors are equal");
         if (!ProfessorCheckings.isSameEmail(newProfessor, professor)) throw new UnprocessableEntityException("Cannot update. It must be same email: " + professor.getPerson().getEmail());
 
-        // TODO: Professor update effects
-        newProfessor.setId(id);
-        newProfessor.getPerson().setId(professor.getPerson().getId());
-        newProfessor.setCreatedAt(professor.getCreatedAt());
-        newProfessor.getPerson().setCreatedAt(professor.getPerson().getCreatedAt());
-        newProfessor.getPerson().setUpdatedAt(new Date());
-        newProfessor.setUpdatedAt(new Date());
+        newProfessor.setUpdateEffects(newProfessor, id, professor);
+
 
         return professorRepository.save(newProfessor);
     }
@@ -53,9 +47,8 @@ public class ProfessorSvcImpl implements ProfessorSvc {
     @Override
     public void delete(UUID id) {
         Professor professor = professorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Professor with ID " + id + " not found"));
-        // TODO: delete effects
-        professor.getStudents().forEach(s -> s.setProfessor(null));
-        professor.setStudents(null);
+
+        professor.setDeleteEffects(professor);
 
         professorRepository.save(professor);
 

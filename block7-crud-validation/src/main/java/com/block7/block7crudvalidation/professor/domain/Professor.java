@@ -48,4 +48,18 @@ public class Professor {
         professor.person.setIsProfessor(true);
         professor.setPerson(professor.person);
     }
+
+    public void setUpdateEffects(Professor newProfessor, UUID id, Professor professorDb) {
+        newProfessor.setId(id);
+        newProfessor.getPerson().setId(professorDb.getPerson().getId());
+        newProfessor.setCreatedAt(professorDb.getCreatedAt());
+        newProfessor.getPerson().setCreatedAt(professorDb.getPerson().getCreatedAt());
+        newProfessor.getPerson().setUpdatedAt(new Date());
+        newProfessor.setUpdatedAt(new Date());
+    }
+
+    public void setDeleteEffects(Professor professor) {
+        professor.getStudents().forEach(student -> student.setProfessor(null));
+        professor.setStudents(null);
+    }
 }
