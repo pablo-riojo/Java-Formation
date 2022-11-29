@@ -9,7 +9,7 @@ public interface ProfessorMapper {
     ProfessorMapper Instance = Mappers.getMapper(ProfessorMapper.class);
 
     ProfessorOutputDTO professorToProfessorOutputDTO(Professor professor);
+    ProfessorSimpleOutputDTO professorToProfessorSimpleOutputDTO(Professor professor);
     Professor professorInputDTOToProfessor(ProfessorInputDTO professorInputDTO);
-
     ProfessorUpdateDTO professorToProfessorUpdateDTO(Professor professor);
 }
