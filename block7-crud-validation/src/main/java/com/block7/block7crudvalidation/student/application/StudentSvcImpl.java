@@ -5,6 +5,7 @@ import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.Unpr
 import com.block7.block7crudvalidation.student.application.utils.StudentCheckings;
 import com.block7.block7crudvalidation.student.domain.Student;
 import com.block7.block7crudvalidation.student.infrastructure.repository.StudentRepository;
+import com.block7.block7crudvalidation.subject.domain.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,16 @@ public class StudentSvcImpl implements StudentSvc {
         newStudent.setUpdateEffects(newStudent, id, student);
 
         return studentRepository.save(newStudent);
+    }
+
+    @Override
+    public List<Subject> addSubjects(List<Subject> subjects, UUID id) {
+        Student student = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Student with ID " + id + " not found"));
+
+        subjects.forEach(student.getSubject()::add);
+        studentRepository.save(student);
+
+        return student.getSubject();
     }
 
     @Override

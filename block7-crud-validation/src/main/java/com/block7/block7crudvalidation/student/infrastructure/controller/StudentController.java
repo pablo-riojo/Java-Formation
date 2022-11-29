@@ -5,6 +5,7 @@ import com.block7.block7crudvalidation.student.application.StudentSvc;
 import com.block7.block7crudvalidation.student.domain.Student;
 import com.block7.block7crudvalidation.student.infrastructure.dto.*;
 import com.block7.block7crudvalidation.subject.domain.Subject;
+import com.block7.block7crudvalidation.subject.infrastructure.dto.SubjectInputDTO;
 import com.block7.block7crudvalidation.subject.infrastructure.dto.SubjectMapper;
 import com.block7.block7crudvalidation.subject.infrastructure.dto.SubjectSimpleOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,14 @@ public class StudentController {
         return response;
     }
 
+    private StudentSimpleOutputDTO getStudentSimpleById(UUID id) {
+        Student student = studentSvc.findById(id);
+
+        StudentSimpleOutputDTO response = StudentMapper.Instance.studentToStudentSimpleOutputDTO(student);
+
+        return response;
+    }
+
     @GetMapping("/{id}/subjects")
     public List<SubjectSimpleOutputDTO> getSubjects(@PathVariable UUID id) {
         Student student = studentSvc.findById(id);
@@ -47,14 +56,6 @@ public class StudentController {
         return student.getSubject().stream().map(
                 SubjectMapper.Instance::subjectToSubjectSimpleOutputDTO
         ).toList();
-    }
-
-    private StudentSimpleOutputDTO getStudentSimpleById(UUID id) {
-        Student student = studentSvc.findById(id);
-
-        StudentSimpleOutputDTO response = StudentMapper.Instance.studentToStudentSimpleOutputDTO(student);
-
-        return response;
     }
 
     @GetMapping
@@ -84,6 +85,16 @@ public class StudentController {
         }
 
         return response;
+    }
+
+    @PatchMapping("/{id}/subjects")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<SubjectSimpleOutputDTO> addSubjects(@PathVariable UUID id, @RequestBody List<SubjectInputDTO> newSubjects) {
+        List<Subject> newSubjectsList = newSubjects.stream().map(SubjectMapper.Instance::subjectInputDTOtoSubject).toList();
+
+        List<Subject> response = studentSvc.addSubjects(newSubjectsList, id);
+
+        return response.stream().map(SubjectMapper.Instance::subjectToSubjectSimpleOutputDTO).toList();
     }
 
     @PutMapping("/{id}")
