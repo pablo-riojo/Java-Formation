@@ -54,6 +54,7 @@ public class StudentSvcImpl implements StudentSvc {
         Student student = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Student with ID " + id + " not found"));
 
         subjects.forEach(student.getSubject()::add);
+
         studentRepository.save(student);
 
         return student.getSubject();

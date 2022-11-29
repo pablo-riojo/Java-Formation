@@ -38,6 +38,11 @@ public class StudentController {
 
         StudentOutputDTO response = StudentMapper.Instance.studentToStudentOutputDTO(student);
 
+        if(student.getSubject() != null) {
+            List<SubjectSimpleOutputDTO> subjects = student.getSubject().stream().map(SubjectMapper.Instance::subjectToSubjectSimpleOutputDTO).toList();
+            response.setSubjects(subjects);
+        }
+
         return response;
     }
 
