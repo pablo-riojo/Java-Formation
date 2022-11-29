@@ -47,5 +47,9 @@ public class Subject {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    // TODO: Set student subject
+    public void setUpdateEffects(Subject newSubject, UUID id, Subject subject) {
+        newSubject.setId(id);
+        newSubject.setCreatedAt(subject.getCreatedAt());
+        newSubject.setUpdatedAt(new Date());
+    }
 }

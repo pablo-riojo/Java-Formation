@@ -8,7 +8,6 @@ import com.block7.block7crudvalidation.subject.infrastructure.repository.Subject
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,11 +31,7 @@ public class SubjectSvcImpl implements SubjectSvc {
 
         if (SubjectCheckings.isNewSubjectEqual(newSubject, subject)) throw  new UnprocessableEntityException("Cannot update. Both subjects are equal");
 
-
-        // TODO: Subject update effects
-        newSubject.setId(id);
-        newSubject.setCreatedAt(subject.getCreatedAt());
-        newSubject.setUpdatedAt(new Date());
+        newSubject.setUpdateEffects(newSubject, id, subject);
 
         return subjectRepository.save(newSubject);
     }
