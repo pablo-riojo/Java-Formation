@@ -5,6 +5,7 @@ import com.block7.block7crudvalidation.professor.domain.Professor;
 import com.block7.block7crudvalidation.professor.infrastructure.repository.ProfessorRepository;
 import com.block7.block7crudvalidation.shared.exception.entityNotFound.EntityNotFoundException;
 import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.UnprocessableEntityException;
+import com.block7.block7crudvalidation.student.domain.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,13 @@ public class ProfessorSvcImpl implements ProfessorSvc {
     @Override
     public Professor findByPersonId(UUID id) {
         return professorRepository.findByPersonId(id).orElseThrow(() -> new EntityNotFoundException("Professor with person ID " + id + " not found"));
+    }
+
+    @Override
+    public List<Student> findStudents(UUID id){
+        Professor professor = professorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Professor with ID " + id + " not found"));
+
+        return professor.getStudents();
     }
 
     @Override

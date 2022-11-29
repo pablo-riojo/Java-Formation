@@ -5,6 +5,8 @@ import com.block7.block7crudvalidation.professor.domain.Professor;
 import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorInputDTO;
 import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorMapper;
 import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorOutputDTO;
+import com.block7.block7crudvalidation.student.infrastructure.dto.StudentMapper;
+import com.block7.block7crudvalidation.student.infrastructure.dto.StudentSimpleOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +45,13 @@ public class ProfessorController {
         ProfessorOutputDTO response = ProfessorMapper.Instance.professorToProfessorOutputDTO(professor);
 
         return response;
+    }
+
+    @GetMapping("/{id}/students")
+    public List<StudentSimpleOutputDTO> getStudents(@PathVariable UUID id) {
+        return professorSvc.findStudents(id).stream().map(
+                StudentMapper.Instance::studentToStudentSimpleOutputDTO
+                ).toList();
     }
 
     @PostMapping
