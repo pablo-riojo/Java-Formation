@@ -28,7 +28,7 @@ public class Professor {
     @JoinColumn(name = "person_id", nullable = false, unique = true)
     private Person person;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Student> students;
 

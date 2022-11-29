@@ -12,6 +12,7 @@ public interface ProfessorSvc {
     Professor findByPersonId(UUID id);
     List<Student> findStudents(UUID id);
     Professor update(Professor newProfessor, UUID id);
+    List<Student> addStudents(List<Student> students, UUID id);
     void delete(UUID id);
     Professor save(Professor professor);
 }

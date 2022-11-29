@@ -53,6 +53,17 @@ public class ProfessorSvcImpl implements ProfessorSvc {
     }
 
     @Override
+    public List<Student> addStudents(List<Student> students, UUID id) {
+        Professor professor = professorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Professor with ID " + id + " not found"));
+
+        students.forEach(professor.getStudents()::add);
+
+        professorRepository.save(professor);
+
+        return professor.getStudents();
+    }
+
+    @Override
     public void delete(UUID id) {
         Professor professor = professorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Professor with ID " + id + " not found"));
 
