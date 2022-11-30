@@ -1,6 +1,10 @@
 package com.block7.block7crudvalidation.student.infrastructure.controller;
 
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper;
+import com.block7.block7crudvalidation.professor.domain.Professor;
+import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorInputDTO;
+import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorMapper;
+import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorSimpleOutputDTO;
 import com.block7.block7crudvalidation.student.application.StudentSvc;
 import com.block7.block7crudvalidation.student.domain.Student;
 import com.block7.block7crudvalidation.student.infrastructure.dto.*;
@@ -90,6 +94,16 @@ public class StudentController {
         }
 
         return response;
+    }
+
+    @PatchMapping("/{id}/professor")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProfessorSimpleOutputDTO addProfessor(@PathVariable UUID id, @RequestBody ProfessorInputDTO newProfessor) {
+        Professor professor = ProfessorMapper.Instance.professorInputDTOToProfessor(newProfessor);
+
+        Professor response = studentSvc.addProfessor(professor, id);
+
+        return ProfessorMapper.Instance.professorToProfessorSimpleOutputDTO(response);
     }
 
     @PatchMapping("/{id}/subjects")

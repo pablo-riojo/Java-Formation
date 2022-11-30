@@ -1,5 +1,6 @@
 package com.block7.block7crudvalidation.student.application;
 
+import com.block7.block7crudvalidation.professor.domain.Professor;
 import com.block7.block7crudvalidation.shared.exception.entityNotFound.EntityNotFoundException;
 import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.UnprocessableEntityException;
 import com.block7.block7crudvalidation.student.application.utils.StudentCheckings;
@@ -48,6 +49,18 @@ public class StudentSvcImpl implements StudentSvc {
 
         return studentRepository.save(newStudent);
     }
+
+    @Override
+    public Professor addProfessor(Professor professor, UUID id) {
+        Student student = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Student with ID " + id + " not found"));
+
+        student.setProfessor(professor);
+
+        studentRepository.save(student);
+
+        return student.getProfessor();
+    }
+
 
     @Override
     public List<Subject> addSubjects(List<Subject> subjects, UUID id) {
