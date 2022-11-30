@@ -4,6 +4,7 @@ import com.block7.block7crudvalidation.person.application.utils.EntityException;
 import com.block7.block7crudvalidation.person.application.utils.PersonCheckings;
 import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.person.infrastructure.repository.PersonRepository;
+import com.block7.block7crudvalidation.professor.domain.Professor;
 import com.block7.block7crudvalidation.shared.exception.entityNotFound.EntityNotFoundException;
 import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.UnprocessableEntityException;
 import com.block7.block7crudvalidation.student.domain.Student;
@@ -39,6 +40,15 @@ public class PersonSvcImpl implements PersonSvc {
     @Transactional(readOnly = true)
     public Person findByUser(String user) {
         return personRepository.findByUser(user).orElseThrow(() -> new EntityNotFoundException("Person with username " + user + " not found"));
+    }
+
+    @Override
+    public Professor findProfessor(UUID id) {
+        Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person with ID " + id + " not found"));
+
+        if (!person.getIsProfessor()) throw new EntityNotFoundException("Person with ID " + id + " is not a professor");
+
+        return person.getProfessor();
     }
 
     @Override
