@@ -35,8 +35,8 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public StudentSimpleOutputDTO getStudentById(@PathVariable UUID id, @RequestParam(name = "output", required = false) String output) {
-        if (output != null &&!output.isBlank() && output.equals("simple")) return getStudentSimpleById(id);
+    public StudentOutputDTO getStudentById(@PathVariable UUID id, @RequestParam(name = "output", required = false) String output) {
+//        if (output != null &&!output.isBlank() && output.equals("simple")) return getStudentSimpleById(id);
 
         Student student = studentSvc.findById(id);
 
@@ -50,10 +50,10 @@ public class StudentController {
         return response;
     }
 
-    private StudentSimpleOutputDTO getStudentSimpleById(UUID id) {
+    private StudentSimpleRelationsOutputDTO getStudentSimpleById(UUID id) {
         Student student = studentSvc.findById(id);
 
-        StudentSimpleOutputDTO response = StudentMapper.Instance.studentToStudentSimpleOutputDTO(student);
+        StudentSimpleRelationsOutputDTO response = StudentMapper.Instance.studentToStudentSimpleRelationsOutputDTO(student);
 
         return response;
     }

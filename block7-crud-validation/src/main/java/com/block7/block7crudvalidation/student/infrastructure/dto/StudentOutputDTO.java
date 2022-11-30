@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-public class StudentOutputDTO extends StudentSimpleOutputDTO {
+public class StudentOutputDTO {
     private UUID id;
     private PersonOutputDTO person;
     private ProfessorOutputDTO professor;

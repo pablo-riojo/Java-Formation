@@ -9,7 +9,6 @@ import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorSim
 import com.block7.block7crudvalidation.student.domain.Student;
 import com.block7.block7crudvalidation.student.infrastructure.dto.StudentInputDTO;
 import com.block7.block7crudvalidation.student.infrastructure.dto.StudentMapper;
-import com.block7.block7crudvalidation.student.infrastructure.dto.StudentSimpleOutputDTO;
 import com.block7.block7crudvalidation.student.infrastructure.dto.StudentSimpleRelationsOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +41,7 @@ public class ProfessorController {
         ProfessorOutputDTO response = ProfessorMapper.Instance.professorToProfessorOutputDTO(professor);
 
         if(professor.getStudents() != null) {
-            List<StudentSimpleOutputDTO> students = professor.getStudents().stream().map(StudentMapper.Instance::studentToStudentSimpleOutputDTO).toList();
+            List<StudentSimpleRelationsOutputDTO> students = professor.getStudents().stream().map(StudentMapper.Instance::studentToStudentSimpleRelationsOutputDTO).toList();
             response.setStudents(students);
         }
 
@@ -96,12 +95,12 @@ public class ProfessorController {
 
     @PatchMapping("/{id}/students")
     @ResponseStatus(HttpStatus.CREATED)
-    public List<StudentSimpleOutputDTO> addStudents(@PathVariable UUID id, @RequestBody List<StudentInputDTO> newStudents) {
+    public List<StudentSimpleRelationsOutputDTO> addStudents(@PathVariable UUID id, @RequestBody List<StudentInputDTO> newStudents) {
         List<Student> newStudentsList = newStudents.stream().map(StudentMapper.Instance::studentInputDTOtoStudent).toList();
 
         List<Student> response = professorSvc.addStudents(newStudentsList, id);
 
-        return response.stream().map(StudentMapper.Instance::studentToStudentSimpleOutputDTO).toList();
+        return response.stream().map(StudentMapper.Instance::studentToStudentSimpleRelationsOutputDTO).toList();
     }
 
 }
