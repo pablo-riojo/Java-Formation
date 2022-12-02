@@ -23,6 +23,7 @@ public class PersonController {
     @Autowired
     PersonSvc personSvc;
 
+    @CrossOrigin(origins = "*", methods = RequestMethod.GET)
     @GetMapping("/all")
     public List<PersonOutputDTO> getAllPersons() {
         return personSvc.findAll().stream().map(
@@ -55,6 +56,7 @@ public class PersonController {
         return ProfessorMapper.Instance.professorToProfessorOutputDTO(response);
     }
 
+    @CrossOrigin(origins = "*", methods = RequestMethod.POST)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PersonOutputDTO createPerson(@RequestBody PersonInputDTO personInput) {
