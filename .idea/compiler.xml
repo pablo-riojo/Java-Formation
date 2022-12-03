@@ -17,6 +17,7 @@
         <module name="block3-maven-package" />
         <module name="block1-process-file-and-streams" />
         <module name="block6-path-variable-headers" />
+        <module name="block11-upload-download-files" />
       </profile>
       <profile name="Annotation profile for block7-crud-validation" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -34,6 +35,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="block11-upload-download-files" options="-parameters" />
       <module name="block5-command-line-runner" options="-parameters" />
       <module name="block5-logging" options="-parameters" />
       <module name="block5-profiles" options="-parameters" />
