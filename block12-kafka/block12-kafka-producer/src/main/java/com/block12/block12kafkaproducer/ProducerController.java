@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("message")
+@RequestMapping("publish")
 public class ProducerController {
     @Autowired
     KafkaTemplate<String, Message> template;
