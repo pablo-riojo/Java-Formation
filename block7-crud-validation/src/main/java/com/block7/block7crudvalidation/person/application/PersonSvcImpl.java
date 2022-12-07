@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +42,29 @@ public class PersonSvcImpl implements PersonSvc {
     public Person findByUser(String user) {
         return personRepository.findByUser(user).orElseThrow(() -> new EntityNotFoundException("Person with username " + user + " not found"));
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Person> findByName(String name) {
+        return personRepository.findByName(name).orElseThrow(() -> new EntityNotFoundException("Person with name " + name + " not found"));
+    }
+
+    @Override
+    public List<Person> findBySurname(String surname) {
+        return personRepository.findBySurname(surname).orElseThrow(() -> new EntityNotFoundException("Person with surname " + surname + " not found"));
+    }
+
+    @Override
+    public List<Person> findByGreaterCreation(Date afterDate) {
+        return personRepository.findByGreaterCreation(afterDate).orElseThrow(() -> new EntityNotFoundException("Person with creation date greater than " + afterDate + " not found"));
+    }
+
+    @Override
+    public List<Person> findByLowerCreation(Date beforeDate) {
+        return personRepository.findByLowerCreation(beforeDate).orElseThrow(() -> new EntityNotFoundException("Person with creation date lower than " + beforeDate + " not found"));
+    }
+
+    ;
 
     @Override
     public Professor findProfessor(UUID id) {

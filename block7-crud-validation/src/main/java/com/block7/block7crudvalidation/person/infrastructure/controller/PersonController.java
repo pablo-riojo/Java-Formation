@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +46,42 @@ public class PersonController {
         Person person = personSvc.findByUser(user);
 
         PersonOutputDTO response = PersonMapper.Instance.personToPersonOutputDTO(person);
+
+        return response;
+    }
+
+    @GetMapping("name/{name}")
+    public List<PersonOutputDTO> getPersonByName(@PathVariable String name) {
+        List<Person> person = personSvc.findByName(name);
+
+        List<PersonOutputDTO> response = person.stream().map(PersonMapper.Instance::personToPersonOutputDTO).toList();
+//        response.sort((r1, r2) -> r1.getUser().compareTo(r2.getUser()));
+
+        return response;
+    }
+
+    @GetMapping("surname/{surname}")
+    public List<PersonOutputDTO> getPersonBySurname(@PathVariable String surname) {
+        List<Person> person = personSvc.findBySurname(surname);
+
+        List<PersonOutputDTO> response = person.stream().map(PersonMapper.Instance::personToPersonOutputDTO).toList();
+
+        return response;
+    }
+
+    @GetMapping("creation")
+    public List<PersonOutputDTO> getPersonGreaterCreation(@RequestParam(value = "after", required = false) Date afterDate, @RequestParam(value = "before", required = false) Date beforeDate) {
+        List<Person> person = new ArrayList<>();
+
+        if (afterDate != null && beforeDate == null) {
+            person = personSvc.findByGreaterCreation(afterDate);
+        }
+        if (beforeDate != null && afterDate == null) {
+            person = personSvc.findByLowerCreation(beforeDate);
+        }
+
+
+        List<PersonOutputDTO> response = person.stream().map(PersonMapper.Instance::personToPersonOutputDTO).toList();
 
         return response;
     }
