@@ -2,6 +2,7 @@ package com.block7.block7crudvalidation.person.application;
 
 import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.professor.domain.Professor;
+import org.springframework.data.domain.Page;
 
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 public interface PersonSvc {
     List<Person> findAll();
+    Page<Person> findAllPaginated(int offset, int pageSize);
     Person findById(UUID id);
     Person findByUser(String user);
     List<Person> findByName(String name);

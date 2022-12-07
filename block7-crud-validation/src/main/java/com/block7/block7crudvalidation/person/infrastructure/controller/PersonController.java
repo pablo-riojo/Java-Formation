@@ -5,10 +5,13 @@ import com.block7.block7crudvalidation.person.domain.Person;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonInputDTO;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonMapper;
 import com.block7.block7crudvalidation.person.infrastructure.dto.PersonOutputDTO;
+import com.block7.block7crudvalidation.person.infrastructure.dto.PersonPageDTO;
 import com.block7.block7crudvalidation.professor.domain.Professor;
 import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorMapper;
 import com.block7.block7crudvalidation.professor.infrastructure.dto.ProfessorOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +33,17 @@ public class PersonController {
         return personSvc.findAll().stream().map(
                p -> PersonMapper.Instance.personToPersonOutputDTO(p)
         ).toList();
+    }
+
+    @CrossOrigin(origins = "*", methods = RequestMethod.GET)
+    @GetMapping
+    public PersonPageDTO getAllPaginated(@RequestParam(value = "offset") int offset, @RequestParam(value = "pageSize") int pageSize) {
+       Page<Person> page = personSvc.findAllPaginated(offset, pageSize);
+
+       List<PersonOutputDTO> response = page.stream().map(PersonMapper.Instance::personToPersonOutputDTO).toList();
+       Page<PersonOutputDTO> responsePag = new PageImpl<>(response);
+
+       return new PersonPageDTO(responsePag.getSize(), responsePag.getContent());
     }
 
     @GetMapping("/{id}")

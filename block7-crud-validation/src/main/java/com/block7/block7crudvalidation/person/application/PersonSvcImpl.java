@@ -10,6 +10,8 @@ import com.block7.block7crudvalidation.shared.exception.unprocessableEntity.Unpr
 import com.block7.block7crudvalidation.student.domain.Student;
 import com.block7.block7crudvalidation.student.infrastructure.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,11 @@ public class PersonSvcImpl implements PersonSvc {
     @Transactional(readOnly = true)
     public List<Person> findAll() {
         return personRepository.findAll();
+    }
+
+    @Override
+    public Page<Person> findAllPaginated(int offset, int pageSize) {
+        return personRepository.findAll(PageRequest.of(offset, pageSize));
     }
 
     @Override
@@ -62,9 +69,7 @@ public class PersonSvcImpl implements PersonSvc {
     @Override
     public List<Person> findByLowerCreation(Date beforeDate) {
         return personRepository.findByLowerCreation(beforeDate).orElseThrow(() -> new EntityNotFoundException("Person with creation date lower than " + beforeDate + " not found"));
-    }
-
-    ;
+    };
 
     @Override
     public Professor findProfessor(UUID id) {
