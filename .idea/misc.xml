@@ -28,6 +28,7 @@
         <option value="$PROJECT_DIR$/block12-kafka/block12-kafka-producer/pom.xml" />
         <option value="$PROJECT_DIR$/block12-kafka/block12-kafka-listener/pom.xml" />
         <option value="$PROJECT_DIR$/block12-kafka/block12-kafka-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/block13-mongodb/pom.xml" />
       </list>
     </option>
   </component>
