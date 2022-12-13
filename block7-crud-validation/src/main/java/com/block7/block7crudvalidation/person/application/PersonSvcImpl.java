@@ -69,7 +69,7 @@ public class PersonSvcImpl implements PersonSvc {
     @Override
     public List<Person> findByLowerCreation(Date beforeDate) {
         return personRepository.findByLowerCreation(beforeDate).orElseThrow(() -> new EntityNotFoundException("Person with creation date lower than " + beforeDate + " not found"));
-    };
+    }
 
     @Override
     public Professor findProfessor(UUID id) {
@@ -96,7 +96,7 @@ public class PersonSvcImpl implements PersonSvc {
     @Override
     @Transactional
     public void delete(UUID id) {
-        Person person = personRepository.findById(id).get();
+        Person person = personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Person with ID " + id + " not found"));
         if (person.getIsStudent()) {
             Student student = studentRepository.findByPersonId(person.getId()).get();
             student.setSubject(null);
