@@ -11,6 +11,17 @@ services:
       - "5432:5432"
     networks:
       - mynetwork
+  sonarqube:
+    image: sonarqube:latest
+    container_name: sonarqube
+    environment:
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://postgresql:5432/test
+      - SONARQUBE_JDBC_USERNAME=postgres
+      - SONARQUBE_JDBC_PASSWORD=contrasena
+    ports:
+      - "9000:9000"
+    networks:
+      - mynetwork
   block10-dockerize-app:
     image: block10-dockerize-app
     networks:
