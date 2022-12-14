@@ -84,7 +84,7 @@ public class PersonController {
     }
 
     @GetMapping("creation")
-    public List<PersonOutputDTO> getPersonGreaterCreation(@RequestParam(value = "after", required = false) Date afterDate, @RequestParam(value = "before", required = false) Date beforeDate) {
+    public List<PersonOutputDTO> getPersonByCreation(@RequestParam(value = "after", required = false) Date afterDate, @RequestParam(value = "before", required = false) Date beforeDate) {
         List<Person> person = new ArrayList<>();
 
         if (afterDate != null && beforeDate == null) {

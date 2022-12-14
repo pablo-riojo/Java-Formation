@@ -200,7 +200,7 @@ class PersonSvcImplTest {
     }
 
     @Test
-    void throwsCustomExceptionWhenChangeEmailInUpdate() {
+    void throwsExceptionWhenChangeEmailInUpdate() {
         Person newPerson = new Person();
         newPerson.setId(person.getId());
         newPerson.setName(person.getName());
