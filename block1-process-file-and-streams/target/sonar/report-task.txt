@@ -1,0 +1,6 @@
+projectKey=org.block1:block1-process-file-and-streams
+serverUrl=http://localhost:9000
+serverVersion=9.7.1.62043
+dashboardUrl=http://localhost:9000/dashboard?id=org.block1%3Ablock1-process-file-and-streams
+ceTaskId=AYUVUX6npFiTxA78FhLA
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYUVUX6npFiTxA78FhLA
