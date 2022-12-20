@@ -16,6 +16,7 @@ public class PersonOutputDTO implements Serializable {
     private UUID id;
     private String user;
     private String name;
+    private Boolean admin;
     private String surname;
     private String email;
     private String companyEmail;

@@ -14,6 +14,7 @@ import java.net.URL;
 public class PersonInputDTO implements Serializable {
     private String user;
     private String password;
+    private Boolean admin;
     private String name;
     private String surname;
     private String email;

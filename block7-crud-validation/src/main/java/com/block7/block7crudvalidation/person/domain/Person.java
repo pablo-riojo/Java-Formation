@@ -31,6 +31,9 @@ public class Person {
     @Column(name = "user_password", nullable = false)
     private String password;
 
+    @Column(name = "is_admin", nullable = false)
+    private Boolean admin;
+
     @Column(name = "person_name", nullable = false)
     private String name;
 
@@ -46,16 +49,16 @@ public class Person {
     @Column(name = "city", nullable = false)
     private String city;
 
-    @Column(name = "isProfessor")
+    @Column(name = "is_professor")
     private Boolean isProfessor = false;
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Professor professor;
 
-    @Column(name = "isStudent")
+    @Column(name = "is_student")
     private Boolean isStudent = false;
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Student student;
 
     @Column(name = "active", nullable = false)
