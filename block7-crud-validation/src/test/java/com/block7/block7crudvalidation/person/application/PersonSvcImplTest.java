@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,6 +40,8 @@ class PersonSvcImplTest {
     private PersonRepository repository;
     @Mock
     private StudentRepository studentRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     private final UUID uuid = UUID.randomUUID();
     private final Person person = new Person();
@@ -245,11 +248,12 @@ class PersonSvcImplTest {
         ArgumentCaptor<Person> personArgumentCaptor =
                 ArgumentCaptor.forClass(Person.class);
 
+        when(passwordEncoder.encode(person.getPassword())).thenReturn("password");
+        when(repository.save(person)).thenReturn(person);
         underTest.save(person);
 
         verify(repository, atLeastOnce())
                 .save(personArgumentCaptor.capture());
-        when(underTest.save(person)).thenReturn(person);
         assertEquals(repository.save(person), underTest.save(person));
         assertEquals(
                 personArgumentCaptor.getValue().getEmail(),
