@@ -2,7 +2,9 @@ package com.block16.block16creatorTrip.passenger.domain;
 
 import com.block16.block16creatorTrip.trip.domain.Trip;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.UUID;
@@ -27,13 +29,13 @@ public class Passenger {
     @Column(nullable = false)
     private int age;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String phone;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     private Trip trip;
 
     @Column(nullable = false)
