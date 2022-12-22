@@ -53,11 +53,14 @@ public class TripSvcImpl implements TripSvc {
     }
 
     @Override
-    public Trip addPassenger(Passenger passenger, UUID id) {
+    public Trip addPassenger(Passenger passenger, UUID id) throws Exception {
         Trip trip = this.findById(id);
         trip.getPassengers().add(passenger);
         trip.getPassengers().forEach(p -> p.setTrip(trip));
         trip.setUpdatedAt(new Date());
+
+        if (trip.getPassengers().size() > 40)
+            throw new Exception("You are exceeding the passengers limit: " + trip.getPassengers().size() + "/40");
 
         return this.save(trip);
     }

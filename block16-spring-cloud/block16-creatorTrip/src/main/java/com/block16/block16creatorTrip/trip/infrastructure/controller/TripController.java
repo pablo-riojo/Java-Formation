@@ -42,12 +42,16 @@ public class TripController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public TripOutputDTO create(@RequestBody TripInputDTO trip) {
-        trip.setStatus(Status.ON_REVIEW);
+    public TripOutputDTO create(@RequestBody TripInputDTO tripInput) {
+        tripInput.setStatus(Status.ON_REVIEW);
 
-        Trip response = svc.save(TripMapper.Instance.tripInputDTOToTrip(trip));
+        Trip trip = svc.save(TripMapper.Instance.tripInputDTOToTrip(tripInput));
+        TripOutputDTO response = TripMapper.Instance.tripToTripOutputDTO(trip);
+        response.setPassengers(
+                trip.getPassengers().stream().map(PassengerMapper.Instance::passengerToPassengerOutputDTO).toList()
+        );
 
-        return TripMapper.Instance.tripToTripOutputDTO(response);
+        return response;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -60,13 +64,13 @@ public class TripController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{id}/passengers")
-    public TripOutputDTO addPassenger(@RequestBody PassengerInputDTO newPassenger, @PathVariable UUID id) {
-        Trip reponse = svc.addPassenger(
-                PassengerMapper.Instance.passengerInputDTOToPassenger(newPassenger),
-                id
+    public TripOutputDTO addPassenger(@RequestBody PassengerInputDTO newPassenger, @PathVariable UUID id) throws Exception {
+        Trip response = svc.addPassenger(
+                PassengerMapper.Instance.passengerInputDTOToPassenger(newPassenger), id
         );
+        response.getPassengers().forEach(PassengerMapper.Instance::passengerToPassengerOutputDTO);
 
-        return TripMapper.Instance.tripToTripOutputDTO(reponse);
+        return TripMapper.Instance.tripToTripOutputDTO(response);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

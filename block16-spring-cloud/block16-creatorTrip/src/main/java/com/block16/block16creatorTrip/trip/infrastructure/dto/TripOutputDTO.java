@@ -1,6 +1,6 @@
 package com.block16.block16creatorTrip.trip.infrastructure.dto;
 
-import com.block16.block16creatorTrip.passenger.infrastructure.dto.PassengerInputDTO;
+import com.block16.block16creatorTrip.passenger.infrastructure.dto.PassengerOutputDTO;
 import com.block16.block16creatorTrip.trip.domain.Status;
 import lombok.Data;
 
@@ -15,7 +15,7 @@ public class TripOutputDTO {
     private String destination;
     private Date departureDate;
     private Date arrivalDate;
-    private List<PassengerInputDTO> passengers;
+    private List<PassengerOutputDTO> passengers;
     private Status status;
     private Date createdAt;
     private Date updatedAt;

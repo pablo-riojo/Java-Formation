@@ -14,7 +14,7 @@ public interface TripSvc {
     String verifyStatus(UUID id);
     Trip save(Trip trip);
     Trip update(Trip newTrip, UUID id);
-    Trip addPassenger(Passenger passenger, UUID id);
+    Trip addPassenger(Passenger passenger, UUID id) throws Exception;
     Trip changeStatus(Status newStatus, UUID id);
     Trip acceptTrip(UUID id);
     void deleteById(UUID id);

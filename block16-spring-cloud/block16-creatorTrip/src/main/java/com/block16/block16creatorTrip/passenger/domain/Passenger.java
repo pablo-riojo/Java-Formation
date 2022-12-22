@@ -36,6 +36,7 @@ public class Passenger {
     private String phone;
 
     @ManyToOne
+    @Transient
     private Trip trip;
 
     @Column(nullable = false)

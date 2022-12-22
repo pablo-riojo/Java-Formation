@@ -1,6 +1,5 @@
 package com.block16.block16creatorTrip.passenger.infrastructure.dto;
 
-import com.block16.block16creatorTrip.trip.infrastructure.dto.TripOutputDTO;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,7 +13,6 @@ public class PassengerOutputDTO {
     private int age;
     private String email;
     private String phone;
-    private TripOutputDTO trip;
     private Date createdAt;
     private Date updatedAt;
 }
