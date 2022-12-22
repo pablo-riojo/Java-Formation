@@ -31,6 +31,7 @@
         <option value="$PROJECT_DIR$/block13-mongodb/pom.xml" />
         <option value="$PROJECT_DIR$/block16-creatorTrip/pom.xml" />
         <option value="$PROJECT_DIR$/block16-spring-cloud/block16-creatorTrip/pom.xml" />
+        <option value="$PROJECT_DIR$/block16-spring-cloud/block16-creatorTicket/pom.xml" />
       </list>
     </option>
   </component>
