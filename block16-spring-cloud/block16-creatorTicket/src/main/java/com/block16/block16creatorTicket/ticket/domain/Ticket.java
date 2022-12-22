@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -38,4 +39,7 @@ public class Ticket {
 
     @Column(nullable = false)
     private String tripDestination;
+
+    @Column(name = "created_at", nullable = false)
+    private Date createdAt = new Date();
 }

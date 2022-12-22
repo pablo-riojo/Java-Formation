@@ -5,7 +5,9 @@ import com.block16.block16creatorTicket.ticket.domain.Ticket;
 import com.block16.block16creatorTicket.ticket.domain.Trip;
 import com.block16.block16creatorTicket.ticket.infrastructure.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,12 +18,14 @@ public class TicketSvcImpl implements TicketSvc {
 
     @Override
     public List<Ticket> findAll() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
     public Ticket findById(UUID id) {
-        return null;
+        return repository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Passenger with ID " + id + " not found")
+        );
     }
 
     @Override
@@ -40,6 +44,6 @@ public class TicketSvcImpl implements TicketSvc {
 
     @Override
     public void deleteById(UUID id) {
-
+        repository.deleteById(id);
     }
 }
