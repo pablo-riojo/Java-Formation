@@ -4,8 +4,7 @@ import com.block16.block16creatorTicket.ticket.application.TicketSvc;
 import com.block16.block16creatorTicket.ticket.domain.Passenger;
 import com.block16.block16creatorTicket.ticket.domain.Ticket;
 import com.block16.block16creatorTicket.ticket.domain.Trip;
-import com.block16.block16creatorTicket.ticket.infrastructure.controller.client.PassengerClient;
-import com.block16.block16creatorTicket.ticket.infrastructure.controller.client.TripClient;
+import com.block16.block16creatorTicket.ticket.infrastructure.controller.client.TripServiceClient;
 import com.block16.block16creatorTicket.ticket.infrastructure.dto.passenger.PassengerMapper;
 import com.block16.block16creatorTicket.ticket.infrastructure.dto.ticket.TicketOutputDTO;
 import com.block16.block16creatorTicket.ticket.infrastructure.dto.trip.TripMapper;
@@ -19,8 +18,8 @@ import java.util.UUID;
 @RequestMapping("/ticket")
 public class TicketController {
     @Autowired TicketSvc svc;
-    @Autowired PassengerClient passengerClient;
-    @Autowired TripClient tripClient;
+    @Autowired
+    TripServiceClient tripServiceClient;
 
 
 //    @GetMapping
@@ -37,10 +36,10 @@ public class TicketController {
     @PostMapping
     public TicketOutputDTO create(@RequestParam("passenger") UUID passengerId, @RequestParam("trip") UUID tripId) {
         Passenger passenger = PassengerMapper.Instance.passengerOutputDTOToPassenger(
-                passengerClient.getById(passengerId)
+                tripServiceClient.getPassengerById(passengerId)
         );
         Trip trip = TripMapper.Instance.tripOutputDTOToTrip(
-                tripClient.getById(tripId)
+                tripServiceClient.getTripById(tripId)
         );
 
         Ticket response = svc.save(passenger, trip);
