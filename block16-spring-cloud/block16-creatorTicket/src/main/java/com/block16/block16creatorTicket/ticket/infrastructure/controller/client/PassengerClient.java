@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
-@FeignClient(name = "passenger-service", url="http://localhost:8081/passenger")
+@FeignClient(name = "creatorTrip-service")
 public interface PassengerClient {
     @GetMapping("/{id}")
     PassengerOutputDTO getById(@PathVariable UUID id);
