@@ -1,0 +1,35 @@
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: cloud-gateway
+    cloud:
+      gateway:
+        discovery:
+          locator:
+            enabled: true
+            lower-case-service-id: true
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8100/eureka/
+
+cloud:
+  loadBalancer:
+    ribbon:
+      enable: false
+  gateway:
+    routes:
+      - id: creatorTrip
+        uri: lb://CREATORTRIP-SERVICE
+        predicates:
+          - Path=/passenger/**,/trip/**
+
+      - id: ticket
+        uri: lb://CREATORTICKET-SERVICE
+        predicates:
+          - Path=/ticket/**

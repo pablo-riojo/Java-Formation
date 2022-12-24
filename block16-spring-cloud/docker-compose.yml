@@ -29,6 +29,7 @@ services:
 
   trip_app:
     image: trip_image
+    build: ./block16-creatorTrip
     networks:
       - cloudnetwork
     ports:
@@ -38,6 +39,7 @@ services:
 
   ticket_app:
     image: ticket_image
+    build: ./block16-creatorTicket
     networks:
       - cloudnetwork
     ports:
@@ -47,7 +49,16 @@ services:
 
   eureka:
     image: eureka-server
+    build: ./block16-eureka
     networks:
       - cloudnetwork
     ports:
       - "8100:8100"
+
+  gateway:
+    image: gateway
+    build: ./block16-gateway
+    networks:
+      - cloudnetwork
+    ports:
+      - "8080:8080"

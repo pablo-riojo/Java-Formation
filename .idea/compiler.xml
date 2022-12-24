@@ -22,8 +22,9 @@
         <module name="block1-process-file-and-streams" />
         <module name="block6-path-variable-headers" />
         <module name="block11-upload-download-files" />
+        <module name="block16-gateway" />
       </profile>
-      <profile name="Annotation profile for block16-creatorTicket" enabled="true">
+      <profile name="Annotation profile for block16-creatorTrip" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -48,6 +49,7 @@
       <module name="block16-creatorTicket" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="block16-creatorTrip" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="block16-eureka" options="-parameters" />
+      <module name="block16-gateway" options="-parameters" />
       <module name="block5-command-line-runner" options="-parameters" />
       <module name="block5-logging" options="-parameters" />
       <module name="block5-profiles" options="-parameters" />
