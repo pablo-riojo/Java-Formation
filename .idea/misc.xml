@@ -34,6 +34,8 @@
         <option value="$PROJECT_DIR$/block16-spring-cloud/block16-creatorTicket/pom.xml" />
         <option value="$PROJECT_DIR$/block16-spring-cloud/block16-eureka/pom.xml" />
         <option value="$PROJECT_DIR$/block16-spring-cloud/block16-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-batch/pom.xml" />
+        <option value="$PROJECT_DIR$/post-spring-batch/pom.xml" />
       </list>
     </option>
   </component>
