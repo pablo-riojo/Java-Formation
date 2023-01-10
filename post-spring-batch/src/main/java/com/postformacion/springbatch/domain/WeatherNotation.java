@@ -1,13 +1,10 @@
 package com.postformacion.springbatch.domain;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-import java.util.Date;
+import javax.persistence.*;
 
-@Getter @Setter @ToString
+@Data
 @Entity
 @Table(name = "WEATHER_NOTATIONS")
 public class WeatherNotation {
@@ -15,13 +12,7 @@ public class WeatherNotation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
-    @JoinColumn(name = "WEATHER_RISK")
-    private WeatherRisk weatherRisk;
-
-    @Column(nullable = false)
-    private final Date date = new Date();
-
-    @Column(nullable = false)
-    private double temperature;
+    private String location;
+    private String date;
+    private int temperature;
 }

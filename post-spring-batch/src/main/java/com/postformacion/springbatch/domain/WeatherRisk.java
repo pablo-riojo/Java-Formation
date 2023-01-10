@@ -1,12 +1,12 @@
 package com.postformacion.springbatch.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.util.Date;
+import javax.persistence.*;
 
 @Getter @Setter @ToString
-@AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "WEATHER_RISK")
 public class WeatherRisk {
@@ -14,13 +14,16 @@ public class WeatherRisk {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "WEATHER_NOTATION")
     private WeatherNotation weatherNotation;
 
-    @Column(nullable = false)
-    private final Date date = new Date();
-
-    @Column(nullable = false)
+    private String date;
     private Risk risk;
+
+    public WeatherRisk(WeatherNotation weatherNotation, String date, Risk risk) {
+        this.weatherNotation = weatherNotation;
+        this.date = date;
+        this.risk = risk;
+    }
 }
