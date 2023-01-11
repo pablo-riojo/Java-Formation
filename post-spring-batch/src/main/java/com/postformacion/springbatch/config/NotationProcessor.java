@@ -20,5 +20,10 @@ public class NotationProcessor implements ItemProcessor<WeatherNotation, Weather
             risk = Risk.LOW;
         }
 
-        return new WeatherRisk(notation, date, risk);    }
+        if(temperature > 50 || temperature < -20) {
+            return null;
+        }
+
+        return new WeatherRisk(notation, date, risk);
+    }
 }

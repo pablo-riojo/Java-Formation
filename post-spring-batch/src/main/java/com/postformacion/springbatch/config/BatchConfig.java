@@ -20,6 +20,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
+import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @Configuration
 @EnableBatchProcessing
 public class BatchConfig {
@@ -27,7 +34,7 @@ public class BatchConfig {
     @Autowired private StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public FlatFileItemReader<WeatherNotation> reader() {
+    public FlatFileItemReader<WeatherNotation> notationsReader() {
         return new FlatFileItemReaderBuilder<WeatherNotation>()
                 .name("notationReader")
                 .resource(new ClassPathResource("prueba.csv"))
@@ -36,6 +43,21 @@ public class BatchConfig {
                 .names("location","temperature","date")
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
                     setTargetType(WeatherNotation.class);
+                }})
+
+                .build();
+    }
+
+    @Bean
+    public FlatFileItemReader<ErrorDTO> errorReader() {
+        return new FlatFileItemReaderBuilder<ErrorDTO>()
+                .name("errorReader")
+                .resource(new ClassPathResource("errors.csv"))
+                .linesToSkip(0)
+                .delimited()
+                .names("location","date","temperature")
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
+                    setTargetType(ErrorDTO.class);
                 }})
 
                 .build();
@@ -104,7 +126,7 @@ public class BatchConfig {
         return stepBuilderFactory
                 .get("step1")
                 .<WeatherNotation, WeatherRisk>chunk(100)
-                .reader(reader())
+                .reader(notationsReader())
                 .processor(processor)
                 .writer(writer)
                 .listener(readerListener)
@@ -121,9 +143,26 @@ public class BatchConfig {
         return stepBuilderFactory
                 .get("step2")
                 .<WeatherNotation, ErrorDTO>chunk(100)
-                .reader(reader())
+                .reader(notationsReader())
                 .processor(processor)
                 .writer(writer)
                 .build();
+    }
+
+    @PostConstruct
+    public void checkErrors() throws IOException {
+        Path path = Paths.get("C:\\Users\\pablo.riojo\\Desktop\\Java-Formation\\JF\\post-spring-batch\\src\\main\\resources\\errors.csv");
+        int errorCondition = 100;
+
+        if(path.toFile().exists()) {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(path.toFile()));
+            String input;
+            int count = 0;
+            while ((input = bufferedReader.readLine()) != null) {
+                count++;
+            }
+
+            if (count > errorCondition) throw new RuntimeException("More than " + errorCondition + " errors. Check 'errors.csv': " + count + " errors found");
+        }
     }
 }
