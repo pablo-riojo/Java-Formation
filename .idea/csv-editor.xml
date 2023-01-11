@@ -3,13 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="C:\Users\pablo.riojo\Downloads\RandomCSVTemp-master\prueba.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\block1-process-file-and-streams\Persons.csv">
           <value>
             <Attribute>
@@ -17,7 +10,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\post-spring-batch\sample-data.csv">
+        <entry key="\post-spring-batch\src\main\resources\errors.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

@@ -1,5 +1,6 @@
 package com.postformacion.springbatch.config;
 
+import com.postformacion.springbatch.domain.ErrorDTO;
 import com.postformacion.springbatch.domain.WeatherNotation;
 import com.postformacion.springbatch.domain.WeatherRisk;
 import com.postformacion.springbatch.listener.NotationJobExecListener;
@@ -71,17 +72,28 @@ public class BatchConfig {
     }
 
     @Bean
-    public Job job(Step step, NotationJobExecListener jobExecutionListener) {
+    public ErrorProcessor errorProcessor() {
+        return new ErrorProcessor();
+    }
+
+    @Bean
+    public ErrorWriter errorWriter() {
+        return new ErrorWriter();
+    }
+
+    @Bean
+    public Job job(Step step1, Step step2, NotationJobExecListener jobExecutionListener) {
         return jobBuilderFactory
                 .get("job1")
                 .listener(jobExecutionListener)
-                .flow(step)
+                .flow(step1)
+                .next(step2)
                 .end()
                 .build();
     }
 
     @Bean
-    public Step step(
+    public Step step1(
             NotationWriter writer,
             NotationProcessor processor,
             NotationReaderListener readerListener,
@@ -98,6 +110,20 @@ public class BatchConfig {
                 .listener(readerListener)
                 .listener(processorListener)
                 .listener(writerListener)
+                .build();
+    }
+
+    @Bean
+    public Step step2(
+            ErrorWriter writer,
+            ErrorProcessor processor
+    ) {
+        return stepBuilderFactory
+                .get("step2")
+                .<WeatherNotation, ErrorDTO>chunk(100)
+                .reader(reader())
+                .processor(processor)
+                .writer(writer)
                 .build();
     }
 }
